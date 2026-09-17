@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study Smart — Pharmaceutical Suspensions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#EEF3EE;
+    --panel:#FFFFFF;
+    --ink:#17241E;
+    --ink-soft:#4B5C52;
+    --teal:#1F6F5C;
+    --teal-deep:#123D33;
+    --teal-pale:#DCEAE4;
+    --amber:#C98A2B;
+    --amber-pale:#F3E4C6;
+    --coral:#B54B3A;
+    --coral-pale:#F3DCD6;
+    --line:#D3DCD4;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    line-height:1.5;
+  }
+  h1,h2,h3,h4{font-family:'Fraunces', serif; margin:0; color:var(--teal-deep);}
+  p{margin:0 0 0.6em 0;}
+
+  /* ---------- MASTHEAD ---------- */
+  .masthead{
+    padding:52px 24px 30px;
+    border-bottom:2px solid var(--line);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    background:linear-gradient(180deg, #F4F7F3 0%, var(--bg) 100%);
+  }
+  .masthead .mark{
+    width:46px;height:46px;margin-bottom:14px;color:var(--teal);
+  }
+  .masthead h1{
+    font-size:clamp(2.4rem, 6vw, 4rem);
+    font-weight:600;
+    letter-spacing:-0.02em;
+    color:var(--teal-deep);
+  }
+  .masthead .rule{
+    width:64px;height:3px;background:var(--amber);margin:16px 0 14px;border-radius:2px;
+  }
+  .masthead p{
+    max-width:520px;
+    color:var(--ink-soft);
+    font-size:1rem;
+  }
+
+  /* ---------- NAV ---------- */
+  .tabs{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:8px;
+    padding:22px 16px;
+    max-width:1000px;
+    margin:0 auto;
+  }
+  .tab-btn{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 18px;
+    border-radius:999px;
+    border:1.5px solid var(--line);
+    background:var(--panel);
+    color:var(--ink-soft);
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:0.92rem;
+    font-weight:600;
+    cursor:pointer;
+    transition:background .18s ease, color .18s ease, border-color .18s ease;
+  }
+  .tab-btn svg{width:18px;height:18px;flex:none;}
+  .tab-btn:hover{border-color:var(--teal);}
+  .tab-btn.active{
+    background:var(--teal);
+    border-color:var(--teal);
+    color:#fff;
+  }
+
+  main{max-width:1080px;margin:0 auto;padding:8px 24px 90px;}
+  .section{display:none;animation:fade .25s ease;}
+  .section.active{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  .section-head{margin:18px 0 22px;}
+  .section-head h2{font-size:1.7rem;font-weight:600;}
+  .section-head .sub{color:var(--ink-soft);font-size:0.95rem;margin-top:4px;}
+
+  /* ---------- OVERVIEW ---------- */
+  .overview-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(250px,1fr));
+    gap:16px;
+    margin-bottom:24px;
+  }
+  .ref-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-left:4px solid var(--teal);
+    border-radius:var(--radius);
+    padding:18px 20px;
+  }
+  .ref-card.amber{border-left-color:var(--amber);}
+  .ref-card.coral{border-left-color:var(--coral);}
+  .ref-card h3{font-size:1.05rem;margin-bottom:10px;}
+  .ref-card dl{margin:0;}
+  .ref-card dt{font-weight:600;color:var(--teal-deep);margin-top:8px;font-family:'IBM Plex Sans';}
+  .ref-card dt:first-child{margin-top:0;}
+  .ref-card dd{margin:2px 0 0;color:var(--ink-soft);font-size:0.92rem;}
+  .rule-list{list-style:none;margin:0;padding:0;}
+  .rule-list li{
+    position:relative;
+    padding-left:20px;
+    margin-bottom:9px;
+    font-size:0.93rem;
+    color:var(--ink);
+  }
+  .rule-list li::before{
+    content:'';
+    position:absolute;left:0;top:7px;
+    width:8px;height:8px;border-radius:50%;
+    background:var(--teal);
+  }
+  .ptable{width:100%;border-collapse:collapse;font-size:0.92rem;}
+  .ptable th{
+    text-align:left;color:var(--teal-deep);font-weight:600;
+    border-bottom:2px solid var(--line);padding:8px 6px;
+  }
+  .ptable td{padding:9px 6px;border-bottom:1px solid var(--line);color:var(--ink-soft);}
+
+  /* ---------- DIAGRAMS ---------- */
+  .diagram-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:22px;
+    margin-bottom:22px;
+  }
+  .diagram-card h3{font-size:1.1rem;margin-bottom:4px;}
+  .diagram-card .hint{color:var(--ink-soft);font-size:0.85rem;margin-bottom:14px;}
+  .stage-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+  .stage-btn{
+    padding:7px 14px;border-radius:999px;border:1.5px solid var(--line);
+    background:#fff;color:var(--ink-soft);font-weight:600;font-size:0.85rem;cursor:pointer;
+    transition:all .15s ease;
+  }
+  .stage-btn.active{background:var(--teal-pale);border-color:var(--teal);color:var(--teal-deep);}
+  .diagram-card svg.viz{width:100%;height:auto;display:block;background:#FAFBF9;border-radius:8px;border:1px solid var(--line);}
+  .caption{margin-top:14px;font-size:0.92rem;color:var(--ink-soft);min-height:1.4em;}
+  .map-node{cursor:pointer;}
+  .map-node circle{transition:fill .15s ease, r .15s ease;}
+  .map-node text{font-family:'IBM Plex Sans';font-size:12px;font-weight:600;fill:var(--teal-deep);}
+  .map-node.active-node circle{fill:var(--amber);}
+
+  .acc-row{border-bottom:1px solid var(--line);}
+  .acc-head{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:11px 4px;cursor:pointer;font-weight:600;color:var(--teal-deep);font-size:0.94rem;
+  }
+  .acc-head .chev{transition:transform .18s ease;color:var(--ink-soft);}
+  .acc-row.open .chev{transform:rotate(90deg);}
+  .acc-body{max-height:0;overflow:hidden;transition:max-height .22s ease;font-size:0.88rem;color:var(--ink-soft);}
+  .acc-row.open .acc-body{max-height:200px;padding-bottom:12px;}
+
+  /* ---------- MINI MAP ---------- */
+  .map-wrap{
+    display:grid;
+    grid-template-columns:1.15fr 0.85fr;
+    gap:18px;
+  }
+  @media(max-width:760px){.map-wrap{grid-template-columns:1fr;}}
+  .map-panel, .reader-panel{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px;
+  }
+  .reader-panel{min-height:280px;}
+  .reader-panel h4{font-size:1.05rem;margin-bottom:8px;color:var(--teal-deep);}
+  .reader-panel p{color:var(--ink-soft);font-size:0.94rem;}
+  .reader-panel .placeholder{color:#8B978E;font-style:italic;font-size:0.9rem;}
+
+  /* ---------- FLASHCARDS ---------- */
+  .flash-controls{
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;
+  }
+  .flash-controls select{
+    padding:8px 10px;border-radius:8px;border:1.5px solid var(--line);font-family:inherit;font-size:0.88rem;background:#fff;color:var(--ink);
+  }
+  .counter{font-size:0.88rem;color:var(--ink-soft);font-weight:600;}
+  .flash-stage{display:flex;justify-content:center;margin-bottom:18px;}
+  .flashcard{
+    width:100%;max-width:560px;height:260px;
+    perspective:1400px;cursor:pointer;
+  }
+  .flash-inner{
+    position:relative;width:100%;height:100%;
+    transition:transform .5s cubic-bezier(.4,.2,.2,1);
+    transform-style:preserve-3d;
+  }
+  .flashcard.flipped .flash-inner{transform:rotateY(180deg);}
+  .flash-face{
+    position:absolute;inset:0;
+    backface-visibility:hidden;
+    border-radius:14px;
+    display:flex;flex-direction:column;justify-content:center;align-items:center;
+    padding:30px;text-align:center;
+    border:1.5px solid var(--line);
+  }
+  .flash-front{background:var(--panel);}
+  .flash-back{background:var(--teal-pale);transform:rotateY(180deg);}
+  .flash-tag{
+    position:absolute;top:14px;left:16px;font-size:0.7rem;font-weight:700;color:var(--teal);
+    text-transform:uppercase;letter-spacing:0.04em;
+  }
+  .flash-face p{font-size:1.08rem;font-weight:500;color:var(--ink);margin:0;}
+  .flash-face .flash-back-text{color:var(--teal-deep);}
+  .flash-hint{position:absolute;bottom:12px;font-size:0.72rem;color:var(--ink-soft);}
+  .flash-nav{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+
+  /* ---------- DIFFICULTY LEVELS (Flash cards & Quiz) ---------- */
+  .level-bar{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+  .level-btn{
+    padding:8px 16px;border-radius:999px;border:1.5px solid var(--line);
+    background:#fff;color:var(--ink-soft);font-weight:600;font-size:0.85rem;cursor:pointer;
+    font-family:'IBM Plex Sans', sans-serif;transition:all .15s ease;
+  }
+  .level-btn.active{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .level-btn.l2.active{background:var(--amber);border-color:var(--amber);}
+  .level-btn.l3.active{background:var(--coral);border-color:var(--coral);}
+  .level-count{text-align:center;font-size:0.82rem;color:var(--ink-soft);margin:-6px 0 14px;}
+  .btn{
+    padding:10px 18px;border-radius:8px;border:1.5px solid var(--teal);
+    background:#fff;color:var(--teal-deep);font-weight:600;font-size:0.9rem;cursor:pointer;
+    transition:background .15s ease, color .15s ease;
+  }
+  .btn.solid{background:var(--teal);color:#fff;}
+  .btn:hover{background:var(--teal-pale);}
+  .btn.solid:hover{background:var(--teal-deep);}
+
+  /* ---------- QUIZ ---------- */
+  .progress-bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:20px;}
+  .progress-fill{height:100%;background:var(--amber);width:0%;transition:width .25s ease;}
+  .quiz-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:26px;}
+  .quiz-meta{display:flex;justify-content:space-between;font-size:0.85rem;color:var(--ink-soft);margin-bottom:10px;font-weight:600;}
+  .quiz-q{font-size:1.12rem;font-weight:600;color:var(--teal-deep);margin-bottom:18px;}
+  .opt-btn{
+    display:block;width:100%;text-align:left;
+    padding:12px 16px;margin-bottom:10px;
+    border-radius:8px;border:1.5px solid var(--line);background:#fff;
+    font-family:inherit;font-size:0.94rem;color:var(--ink);cursor:pointer;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .opt-btn:hover{border-color:var(--teal);}
+  .opt-btn.correct{background:var(--teal-pale);border-color:var(--teal);color:var(--teal-deep);font-weight:600;}
+  .opt-btn.incorrect{background:var(--coral-pale);border-color:var(--coral);color:var(--coral);font-weight:600;}
+  .opt-btn.disabled{cursor:default;}
+  .quiz-actions{display:flex;justify-content:space-between;align-items:center;margin-top:16px;}
+  .score-tag{font-weight:700;color:var(--teal-deep);font-size:0.9rem;}
+  .results-box{text-align:center;padding:30px 10px;}
+  .results-box .big-score{font-family:'Fraunces';font-size:3rem;color:var(--teal-deep);margin-bottom:6px;}
+  .missed-list{text-align:left;max-width:640px;margin:22px auto 0;}
+  .missed-item{border-bottom:1px solid var(--line);padding:12px 4px;font-size:0.9rem;}
+  .missed-item .q{font-weight:600;color:var(--ink);margin-bottom:4px;}
+  .missed-item .a{color:var(--teal-deep);}
+
+  footer{
+    text-align:center;padding:26px 20px 40px;color:var(--ink-soft);font-size:0.82rem;border-top:1px solid var(--line);
+  }
+  footer strong{color:var(--teal-deep);}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <svg class="mark" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M19 4h10v10l9 18a5 5 0 0 1-4.5 7.2H14.5A5 5 0 0 1 10 31l9-18V4Z" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
+    <path d="M15 30h18" stroke="currentColor" stroke-width="2.4"/>
+    <path d="M17 4h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+  </svg>
+  <h1>Study Smart</h1>
+  <div class="rule"></div>
+  <p>A compact study companion for pharmaceutical suspensions — the rules, the pictures, the drills, and the practice questions, all in one place.</p>
+</div>
+
+<nav class="tabs">
+  <button class="tab-btn active" id="tab-overview" onclick="showSection('overview')">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z" stroke="currentColor" stroke-width="2"/><path d="m21 21-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    Overview
+  </button>
+  <button class="tab-btn" id="tab-diagrams" onclick="showSection('diagrams')">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M4 20V10M12 20V4M20 20v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    Diagrams
+  </button>
+  <button class="tab-btn" id="tab-map" onclick="showSection('map')">
+    <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="5" r="2.4" stroke="currentColor" stroke-width="2"/><circle cx="5" cy="18" r="2.4" stroke="currentColor" stroke-width="2"/><circle cx="19" cy="18" r="2.4" stroke="currentColor" stroke-width="2"/><path d="M10.5 7 6.5 15.7M13.5 7l3.9 8.7" stroke="currentColor" stroke-width="2"/></svg>
+    Mini Map
+  </button>
+  <button class="tab-btn" id="tab-flash" onclick="showSection('flash')">
+    <svg viewBox="0 0 24 24" fill="none"><rect x="5" y="7" width="14" height="10" rx="2" stroke="currentColor" stroke-width="2"/><path d="M7 5h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    Flash Cards
+  </button>
+  <button class="tab-btn" id="tab-quiz" onclick="showSection('quiz')">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5 9.5 17 19 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Quiz Bank
+  </button>
+</nav>
+
+<main>
+
+  <!-- ===================== OVERVIEW ===================== -->
+  <section class="section active" id="overview">
+    <div class="section-head">
+      <h2>The essentials, at a glance</h2>
+      <div class="sub">Not a lecture — just the definitions, rules, and thresholds you actually need to remember.</div>
+    </div>
+
+    <div class="overview-grid">
+      <div class="ref-card">
+        <h3>Core definitions</h3>
+        <dl>
+          <dt>Suspension</dt><dd>A biphasic system of finely divided insoluble solid dispersed in a liquid vehicle.</dd>
+          <dt>Flocculated</dt><dd>Particles cluster loosely, settle fast, redisperse easily.</dd>
+          <dt>Deflocculated</dt><dd>Particles settle individually and slowly, but can cake hard.</dd>
+          <dt>Thixotropy</dt><dd>Reversible gel↔sol change — gels at rest, flows when shaken.</dd>
+          <dt>Ostwald ripening</dt><dd>Temperature cycling shrinks small particles and grows large ones.</dd>
+        </dl>
+      </div>
+
+      <div class="ref-card amber">
+        <h3>Golden rules</h3>
+        <ul class="rule-list">
+          <li>Always shake before use — it restores uniform dosing.</li>
+          <li>Package in wide-mouth containers with airspace for shaking and pouring.</li>
+          <li>Store in tight containers, away from freezing, heat, and light.</li>
+          <li>Small particles + higher vehicle viscosity = better physical stability.</li>
+          <li>Stable temperature storage avoids caking and Ostwald ripening.</li>
+        </ul>
+      </div>
+
+      <div class="ref-card coral">
+        <h3>Neonatal cautions</h3>
+        <ul class="rule-list">
+          <li>Skip preservatives, colorings, flavorings, and alcohol when possible.</li>
+          <li>Alcohol: liver stress, gastric irritation, neurologic depression.</li>
+          <li>Benzyl alcohol: linked to gasping syndrome.</li>
+          <li>Propylene glycol: linked to seizures and stupor in preterm infants.</li>
+          <li>Aromatic Elixir, NF carries 21–23% alcohol — avoid in these patients.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ref-card" style="margin-bottom:22px;">
+      <h3>Particle size, by route</h3>
+      <table class="ptable">
+        <tr><th>Route</th><th>Requirement</th></tr>
+        <tr><td>Ophthalmic</td><td>≤ 10 μm, or the eye feels pain/discomfort on instillation</td></tr>
+        <tr><td>Topical</td><td>No grit on skin; finer particles improve coverage and change penetration</td></tr>
+        <tr><td>Injectable</td><td>Must pass freely through the needle; needle-shaped crystals favor thixotropy</td></tr>
+      </table>
+    </div>
+
+    <div class="ref-card">
+      <h3>Why drugs that react with alcohol matter here</h3>
+      <p style="color:var(--ink-soft);font-size:0.92rem;">Metronidazole (Flagyl) and disulfiram (Antabuse) can cause a severe reaction with alcohol — so alcohol-containing vehicles like Aromatic Elixir, NF must be avoided for patients on these drugs, not only for neonates.</p>
+    </div>
+  </section>
+
+  <!-- ===================== DIAGRAMS ===================== -->
+  <section class="section" id="diagrams">
+    <div class="section-head">
+      <h2>Visual references</h2>
+      <div class="sub">Click through each panel — every figure responds to your input.</div>
+    </div>
+
+    <!-- Ostwald ripening -->
+    <div class="diagram-card">
+      <h3>Ostwald ripening across a temperature cycle</h3>
+      <div class="hint">Switch the stage to see how repeated heating and cooling reshapes the particles.</div>
+      <div class="stage-buttons">
+        <button class="stage-btn active" id="ost-medium" onclick="setOstwald('medium')">Medium temperature</button>
+        <button class="stage-btn" id="ost-high" onclick="setOstwald('high')">Heating</button>
+        <button class="stage-btn" id="ost-low" onclick="setOstwald('low')">Cooling</button>
+      </div>
+      <svg class="viz" viewBox="0 0 600 180"><g id="ost-particles"></g></svg>
+      <div class="caption" id="ost-caption"></div>
+    </div>
+
+    <!-- Particle size ruler -->
+    <div class="diagram-card">
+      <h3>Particle size thresholds by route</h3>
+      <div class="hint">Click a marker to read what that size limit means in practice.</div>
+      <svg class="viz" viewBox="0 0 600 130">
+        <line x1="40" y1="70" x2="560" y2="70" stroke="#B9C4BB" stroke-width="3"/>
+        <g onclick="setPSize('ophthalmic')" style="cursor:pointer;">
+          <circle cx="90" cy="70" r="9" fill="#1F6F5C"/>
+          <text x="90" y="50" text-anchor="middle" font-size="12" font-weight="600" fill="#123D33">Ophthalmic</text>
+          <text x="90" y="95" text-anchor="middle" font-size="11" fill="#4B5C52">≤10 μm</text>
+        </g>
+        <g onclick="setPSize('topical')" style="cursor:pointer;">
+          <circle cx="300" cy="70" r="9" fill="#C98A2B"/>
+          <text x="300" y="50" text-anchor="middle" font-size="12" font-weight="600" fill="#123D33">Topical</text>
+          <text x="300" y="95" text-anchor="middle" font-size="11" fill="#4B5C52">finer = better</text>
+        </g>
+        <g onclick="setPSize('injectable')" style="cursor:pointer;">
+          <circle cx="510" cy="70" r="9" fill="#B54B3A"/>
+          <text x="510" y="50" text-anchor="middle" font-size="12" font-weight="600" fill="#123D33">Injectable</text>
+          <text x="510" y="95" text-anchor="middle" font-size="11" fill="#4B5C52">needle-passable</text>
+        </g>
+      </svg>
+      <div class="caption" id="psize-caption">Click a marker above to see the detail.</div>
+    </div>
+
+    <!-- Thixotropy toggle -->
+    <div class="diagram-card">
+      <h3>Thixotropy: gel at rest, fluid when shaken</h3>
+      <div class="hint">Toggle between the two states of a thixotropic suspension.</div>
+      <div class="stage-buttons">
+        <button class="stage-btn active" id="thix-gel" onclick="setThix('gel')">At rest (gel)</button>
+        <button class="stage-btn" id="thix-sol" onclick="setThix('sol')">Shaken (sol)</button>
+      </div>
+      <svg class="viz" viewBox="0 0 600 180"><g id="thix-render"></g></svg>
+      <div class="caption" id="thix-caption"></div>
+    </div>
+
+    <!-- Stability triangle -->
+    <div class="diagram-card">
+      <h3>Three levers of suspension stability</h3>
+      <div class="hint">Click a node to see how each factor works.</div>
+      <svg class="viz" viewBox="0 0 600 220">
+        <line x1="300" y1="40" x2="120" y2="180" stroke="#B9C4BB" stroke-width="2"/>
+        <line x1="300" y1="40" x2="480" y2="180" stroke="#B9C4BB" stroke-width="2"/>
+        <line x1="120" y1="180" x2="480" y2="180" stroke="#B9C4BB" stroke-width="2"/>
+        <g class="map-node" id="stab-size" onclick="setStability('size')">
+          <circle cx="300" cy="40" r="30" fill="#DCEAE4" stroke="#1F6F5C" stroke-width="2"/>
+          <text x="300" y="45" text-anchor="middle">Particle size</text>
+        </g>
+        <g class="map-node" id="stab-visc" onclick="setStability('visc')">
+          <circle cx="120" cy="180" r="30" fill="#DCEAE4" stroke="#1F6F5C" stroke-width="2"/>
+          <text x="120" y="185" text-anchor="middle">Viscosity</text>
+        </g>
+        <g class="map-node" id="stab-temp" onclick="setStability('temp')">
+          <circle cx="480" cy="180" r="30" fill="#DCEAE4" stroke="#1F6F5C" stroke-width="2"/>
+          <text x="480" y="185" text-anchor="middle">Temperature</text>
+        </g>
+      </svg>
+      <div class="caption" id="stability-caption">Click any node above.</div>
+    </div>
+
+    <!-- Interactive category table -->
+    <div class="diagram-card">
+      <h3>Suspension categories by therapeutic use</h3>
+      <div class="hint">Click a row to reveal its examples.</div>
+      <div id="acc-table"></div>
+    </div>
+  </section>
+
+  <!-- ===================== MINI MAP ===================== -->
+  <section class="section" id="map">
+    <div class="section-head">
+      <h2>Mini map</h2>
+      <div class="sub">Click a topic on the map — its summary opens in the reader panel beside it.</div>
+    </div>
+    <div class="map-wrap">
+      <div class="map-panel">
+        <svg class="viz" viewBox="0 0 480 420" id="mapSvg">
+          <line x1="240" y1="210" x2="240" y2="60" stroke="#B9C4BB" stroke-width="2"/>
+          <line x1="240" y1="210" x2="410" y2="130" stroke="#B9C4BB" stroke-width="2"/>
+          <line x1="240" y1="210" x2="410" y2="300" stroke="#B9C4BB" stroke-width="2"/>
+          <line x1="240" y1="210" x2="240" y2="365" stroke="#B9C4BB" stroke-width="2"/>
+          <line x1="240" y1="210" x2="70" y2="300" stroke="#B9C4BB" stroke-width="2"/>
+          <line x1="240" y1="210" x2="70" y2="130" stroke="#B9C4BB" stroke-width="2"/>
+
+          <g class="map-node"><circle cx="240" cy="210" r="42" fill="#123D33"/><text x="240" y="215" text-anchor="middle" fill="#fff" font-size="13">Suspensions</text></g>
+
+          <g class="map-node" id="mn-compounding" onclick="showMap('compounding')"><circle cx="240" cy="60" r="34" fill="#DCEAE4" stroke="#1F6F5C" stroke-width="2"/><text x="240" y="64" text-anchor="middle">Compounding</text></g>
+
+          <g class="map-node" id="mn-cautions" onclick="showMap('cautions')"><circle cx="410" cy="130" r="34" fill="#F3DCD6" stroke="#B54B3A" stroke-width="2"/><text x="410" y="126" text-anchor="middle">Cautions</text></g>
+
+          <g class="map-node" id="mn-packaging" onclick="showMap('packaging')"><circle cx="410" cy="300" r="34" fill="#DCEAE4" stroke="#1F6F5C" stroke-width="2"/><text x="410" y="296" text-anchor="middle">Packaging &amp;</text><text x="410" y="311" text-anchor="middle">storage</text></g>
+
+          <g class="map-node" id="mn-routes" onclick="showMap('routes')"><circle cx="240" cy="365" r="34" fill="#F3E4C6" stroke="#C98A2B" stroke-width="2"/><text x="240" y="369" text-anchor="middle">Routes &amp; examples</text></g>
+
+          <g class="map-node" id="mn-particle" onclick="showMap('particle')"><circle cx="70" cy="300" r="34" fill="#F3E4C6" stroke="#C98A2B" stroke-width="2"/><text x="70" y="296" text-anchor="middle">Particle-size</text><text x="70" y="311" text-anchor="middle">rules</text></g>
+
+          <g class="map-node" id="mn-stability" onclick="showMap('stability')"><circle cx="70" cy="130" r="34" fill="#DCEAE4" stroke="#1F6F5C" stroke-width="2"/><text x="70" y="126" text-anchor="middle">Stability &amp;</text><text x="70" y="141" text-anchor="middle">ripening</text></g>
+        </svg>
+      </div>
+      <div class="reader-panel" id="readerPanel">
+        <p class="placeholder">Click any topic on the map to see its summary here.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FLASHCARDS ===================== -->
+  <section class="section" id="flash">
+    <div class="section-head">
+      <h2>Flash cards</h2>
+      <div class="sub">Tap a card to flip it. Use shuffle to test recall out of order.</div>
+    </div>
+
+    <div class="level-bar">
+      <button class="level-btn active" id="flashLvl-1" onclick="setFlashLevel(1)">Level 1 · Easy</button>
+      <button class="level-btn l2" id="flashLvl-2" onclick="setFlashLevel(2)">Level 2 · Medium</button>
+      <button class="level-btn l3" id="flashLvl-3" onclick="setFlashLevel(3)">Level 3 · Hard</button>
+    </div>
+    <div class="level-count" id="flashLevelCount"></div>
+
+    <div class="flash-controls">
+      <select id="catFilter" onchange="filterCategory(this.value)">
+        <option value="all">All topics</option>
+      </select>
+      <div class="counter" id="flashCounter">Card 1 of 1</div>
+    </div>
+
+    <div class="flash-stage">
+      <div class="flashcard" id="flashcard" onclick="flipCard()">
+        <div class="flash-inner">
+          <div class="flash-face flash-front">
+            <div class="flash-tag" id="flashTagFront">Topic</div>
+            <p id="flashFrontText">Loading…</p>
+            <div class="flash-hint">Tap to flip</div>
+          </div>
+          <div class="flash-face flash-back">
+            <div class="flash-tag" id="flashTagBack">Topic</div>
+            <p class="flash-back-text" id="flashBackText">Loading…</p>
+            <div class="flash-hint">Tap to flip back</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flash-nav">
+      <button class="btn" onclick="prevCard()">Previous</button>
+      <button class="btn solid" onclick="shuffleDeck()">Shuffle</button>
+      <button class="btn" onclick="nextCard()">Next</button>
+    </div>
+  </section>
+
+  <!-- ===================== QUIZ ===================== -->
+  <section class="section" id="quiz">
+    <div class="section-head">
+      <h2>Quiz bank</h2>
+      <div class="sub">Answer choices are shuffled every time you start — the correct answer never sits in the same spot twice.</div>
+    </div>
+
+    <div class="level-bar">
+      <button class="level-btn active" id="quizLvl-1" onclick="setQuizLevel(1)">Level 1 · Easy</button>
+      <button class="level-btn l2" id="quizLvl-2" onclick="setQuizLevel(2)">Level 2 · Medium</button>
+      <button class="level-btn l3" id="quizLvl-3" onclick="setQuizLevel(3)">Level 3 · Hard</button>
+    </div>
+    <div class="level-count" id="quizLevelCount"></div>
+
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+    <div id="quizArea"></div>
+  </section>
+
+</main>
+
+<footer>
+  Study Smart — a self-contained study companion for pharmaceutical suspensions.<br>
+  © 2026 <strong>Anmar Taha</strong>. All rights reserved.
+</footer>
+
+<script>
+/* ============ NAV ============ */
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  if(id==='quiz' && !quizStarted){ initQuiz(); quizStarted = true; }
+}
+
+/* ============ OSTWALD RIPENING ============ */
+const ostData = {
+  medium: {
+    caption: "Medium (starting) temperature: two mid-sized particles sit alongside several small ones — a typical distribution before any temperature stress.",
+    svg: `
+      <circle cx="220" cy="90" r="24" fill="#1F6F5C"/>
+      <circle cx="300" cy="90" r="24" fill="#1F6F5C"/>
+      <circle cx="150" cy="130" r="7" fill="#C98A2B"/>
+      <circle cx="180" cy="140" r="7" fill="#C98A2B"/>
+      <circle cx="340" cy="135" r="7" fill="#C98A2B"/>
+      <circle cx="370" cy="125" r="7" fill="#C98A2B"/>
+    `
+  },
+  high: {
+    caption: "Heating raises solubility, so the small particles dissolve first and seem to vanish — only the two mid-sized particles remain visible.",
+    svg: `
+      <circle cx="230" cy="90" r="22" fill="#1F6F5C"/>
+      <circle cx="310" cy="90" r="22" fill="#1F6F5C"/>
+    `
+  },
+  low: {
+    caption: "On cooling, solubility drops again, and the dissolved material redeposits onto the surviving particles — so they emerge larger than before.",
+    svg: `
+      <circle cx="230" cy="90" r="34" fill="#1F6F5C"/>
+      <circle cx="330" cy="90" r="34" fill="#1F6F5C"/>
+    `
+  }
+};
+function setOstwald(stage){
+  document.querySelectorAll('.stage-btn').forEach(b=>{ if(b.id.startsWith('ost-')) b.classList.remove('active'); });
+  document.getElementById('ost-'+stage).classList.add('active');
+  document.getElementById('ost-particles').innerHTML = ostData[stage].svg;
+  document.getElementById('ost-caption').textContent = ostData[stage].caption;
+}
+setOstwald('medium');
+
+/* ============ PARTICLE SIZE ============ */
+const psData = {
+  ophthalmic: "Ophthalmic suspensions must keep particles at 10 μm or below. Below that size the eye tolerates instillation comfortably; larger particles cause pain or irritation.",
+  topical: "Topical suspensions must never feel gritty on skin. Finer particles also increase covering power and change how fast the drug dissolves and penetrates.",
+  injectable: "Injectable suspensions have no fixed micron cutoff, but particles must pass freely through the syringe needle — needle-shaped crystals are often chosen because they favor a thixotropic system."
+};
+function setPSize(key){ document.getElementById('psize-caption').textContent = psData[key]; }
+
+/* ============ THIXOTROPY ============ */
+const thixData = {
+  gel: {
+    caption: "At rest, the particles link into a loose network gel — the suspension looks and behaves like a thick, semi-solid.",
+    svg: `
+      <line x1="120" y1="60" x2="200" y2="100" stroke="#1F6F5C" stroke-width="2"/>
+      <line x1="200" y1="100" x2="150" y2="150" stroke="#1F6F5C" stroke-width="2"/>
+      <line x1="150" y1="150" x2="260" y2="160" stroke="#1F6F5C" stroke-width="2"/>
+      <line x1="260" y1="160" x2="330" y2="90" stroke="#1F6F5C" stroke-width="2"/>
+      <line x1="330" y1="90" x2="420" y2="130" stroke="#1F6F5C" stroke-width="2"/>
+      <line x1="420" y1="130" x2="470" y2="70" stroke="#1F6F5C" stroke-width="2"/>
+      <line x1="200" y1="100" x2="330" y2="90" stroke="#1F6F5C" stroke-width="2"/>
+      <line x1="150" y1="150" x2="420" y2="130" stroke="#1F6F5C" stroke-width="2"/>
+      <circle cx="120" cy="60" r="8" fill="#123D33"/><circle cx="200" cy="100" r="8" fill="#123D33"/>
+      <circle cx="150" cy="150" r="8" fill="#123D33"/><circle cx="260" cy="160" r="8" fill="#123D33"/>
+      <circle cx="330" cy="90" r="8" fill="#123D33"/><circle cx="420" cy="130" r="8" fill="#123D33"/>
+      <circle cx="470" cy="70" r="8" fill="#123D33"/>
+    `
+  },
+  sol: {
+    caption: "Shaking breaks the network apart — the same particles now move freely as a pourable fluid, until they are left undisturbed again.",
+    svg: `
+      <circle cx="90" cy="60" r="8" fill="#123D33"/><circle cx="180" cy="120" r="8" fill="#123D33"/>
+      <circle cx="260" cy="50" r="8" fill="#123D33"/><circle cx="330" cy="140" r="8" fill="#123D33"/>
+      <circle cx="410" cy="70" r="8" fill="#123D33"/><circle cx="470" cy="150" r="8" fill="#123D33"/>
+      <circle cx="140" cy="160" r="8" fill="#123D33"/>
+    `
+  }
+};
+function setThix(state){
+  document.getElementById('thix-gel').classList.toggle('active', state==='gel');
+  document.getElementById('thix-sol').classList.toggle('active', state==='sol');
+  document.getElementById('thix-render').innerHTML = thixData[state].svg;
+  document.getElementById('thix-caption').textContent = thixData[state].caption;
+}
+setThix('gel');
+
+/* ============ STABILITY TRIANGLE ============ */
+const stabData = {
+  size: "Smaller particles create more total surface area, which increases the solid–liquid interface and raises the viscosity of the whole system — helping particles stay suspended.",
+  visc: "A more viscous continuous phase slows the rate of sedimentation. The trade-off: higher viscosity can also slow the rate of drug release, which is sometimes desirable for depot formulations.",
+  temp: "Fluctuating temperature can cause caking and claying, and repeated cycles drive Ostwald ripening — small particles shrink while large ones grow."
+};
+function setStability(key){
+  document.querySelectorAll('#diagrams .map-node circle').forEach(c=>c.setAttribute('fill','#DCEAE4'));
+  document.getElementById('stab-'+key).querySelector('circle').setAttribute('fill', '#F3E4C6');
+  document.getElementById('stability-caption').textContent = stabData[key];
+}
+
+/* ============ CATEGORY ACCORDION TABLE ============ */
+const catTable = [
+  {name:"Antacid", ex:"Alumina / simethicone combinations, e.g. Maalox."},
+  {name:"Antibacterial", ex:"Bactrim suspension, Metheprim suspension."},
+  {name:"Dry powder for oral suspension", ex:"Ampicillin, cefixime, erythromycin estolate — reconstituted before dispensing."},
+  {name:"Analgesic (NSAID)", ex:"Mefenamic acid (Ponstan), ibuprofen (Prufen)."},
+  {name:"Anthelmintic", ex:"Thiabendazole."},
+  {name:"Anticonvulsant", ex:"Carbamazepine (Tegretol)."},
+  {name:"Antifungal", ex:"Nystatin oral drops."},
+  {name:"Rectal", ex:"Barium Sulfate for Suspension, USP — oral or rectal GI visualization."},
+  {name:"Other GI", ex:"Mesalamine (5-aminosalicylic acid) for Crohn disease and distal ulcerative colitis."},
+  {name:"Otic", ex:"Polymyxin B sulfate + neomycin sulfate + hydrocortisone."},
+  {name:"Ophthalmic", ex:"Hydrocortisone eye drop suspension."}
+];
+function buildAccordion(){
+  const wrap = document.getElementById('acc-table');
+  wrap.innerHTML = catTable.map((c,i)=>`
+    <div class="acc-row" id="acc-${i}">
+      <div class="acc-head" onclick="toggleAcc(${i})"><span>${c.name}</span><span class="chev">›</span></div>
+      <div class="acc-body"><p style="padding:0 4px;">${c.ex}</p></div>
+    </div>
+  `).join('');
+}
+function toggleAcc(i){ document.getElementById('acc-'+i).classList.toggle('open'); }
+buildAccordion();
+
+/* ============ MINI MAP ============ */
+const mapData = {
+  compounding: {title:"Compounding", text:"Contents of a capsule are emptied, or tablets crushed, into a mortar. The chosen vehicle is worked in slowly with a pestle to form a paste, then diluted to the final volume. Commercial vehicles such as the Ora family (Ora-Sweet, Ora-Sweet SF, OraPlus, Ora-Blend) are common choices — used for drugs like prednisone, ketoconazole, and rifampin."},
+  cautions: {title:"Cautions", text:"Neonatal suspensions should skip preservatives, colorings, flavorings, and alcohol where possible. Alcohol can affect liver function and the nervous system; benzyl alcohol is linked to gasping syndrome; propylene glycol is linked to seizures and stupor in preterm infants. Also watch for alcohol-reactive drugs such as metronidazole and disulfiram."},
+  packaging: {title:"Packaging & storage", text:"Suspensions belong in wide-mouth containers with airspace for shaking and easy pouring, stored in tight containers away from freezing, excessive heat, and light. Shaking before every dose keeps the solid evenly distributed for accurate dosing."},
+  routes: {title:"Routes & examples", text:"Oral suspensions span antacids, antibacterials, dry-powder antibiotics, analgesics, anthelmintics, anticonvulsants, and antifungals. Other routes include rectal (barium sulfate for GI imaging), otic (polymyxin B/neomycin/hydrocortisone), and ophthalmic (hydrocortisone eye drops)."},
+  particle: {title:"Particle-size rules", text:"Ophthalmic particles must stay at 10 μm or below to avoid pain on instillation. Topical suspensions must not feel gritty — finer particles improve coverage and affect penetration. Injectable particles must pass freely through the needle; needle-shaped crystals help create a thixotropic system."},
+  stability: {title:"Stability & ripening", text:"Stability improves with smaller particle size (more surface area, higher viscosity) and a more viscous continuous phase (slower sedimentation, though possibly slower drug release). Temperature swings cause caking, claying, and Ostwald ripening — where small particles shrink and large ones grow."}
+};
+function showMap(key){
+  document.querySelectorAll('#map .map-node').forEach(n=>n.classList.remove('active-node'));
+  document.getElementById('mn-'+key).classList.add('active-node');
+  const d = mapData[key];
+  document.getElementById('readerPanel').innerHTML = `<h4>${d.title}</h4><p>${d.text}</p>`;
+}
+
+/* ============ FLASHCARDS (3 difficulty levels) ============ */
+const flashcardsEasy = [{"cat": "Compounding", "f": "Why do infants and the elderly often need liquid dosage forms instead of solids?", "b": "Because they may not be able to swallow solid medicines such as tablets or capsules."}, {"cat": "Compounding", "f": "What is an 'extemporaneous' suspension?", "b": "A suspension compounded specially by the pharmacist when the drug is not commercially available as a convenient liquid."}, {"cat": "Compounding", "f": "Name three drugs the lecture gives as examples of extemporaneous oral suspensions.", "b": "Prednisone, ketoconazole, and rifampin (Rifadin, Aventis)."}, {"cat": "Compounding", "f": "What tool is used to crush tablets or empty capsule contents when compounding a suspension?", "b": "A mortar and pestle."}, {"cat": "Compounding", "f": "What is formed when the vehicle is first slowly mixed with the drug powder?", "b": "A paste."}, {"cat": "Compounding", "f": "What is done to the paste after it forms?", "b": "It is diluted to the desired final volume."}, {"cat": "Compounding", "f": "Name the commercial vehicle family used for extemporaneous compounding.", "b": "The Ora family — Ora-Sweet, Ora-Sweet SF, OraPlus, Ora-Blend."}, {"cat": "Compounding", "f": "Which company manufactures the Ora family of vehicles?", "b": "Paddock Laboratories."}, {"cat": "Cautions", "f": "Should alcohol be included in a liquid suspension for a neonate?", "b": "No — it should be omitted unless absolutely necessary."}, {"cat": "Cautions", "f": "Besides alcohol, name three excipients a neonatal suspension should avoid.", "b": "Preservatives, colorings, and flavorings."}, {"cat": "Cautions", "f": "What can alcohol do to a neonate's liver?", "b": "Alter (impair) liver function."}, {"cat": "Cautions", "f": "Besides liver effects, name two other harms alcohol can cause a neonate.", "b": "Gastric irritation and neurologic depression."}, {"cat": "Cautions", "f": "Which official vehicle contains 21% to 23% alcohol?", "b": "Aromatic Elixir, NF."}, {"cat": "Cautions", "f": "Name a drug that can make a patient violently ill if combined with alcohol.", "b": "Metronidazole (Flagyl) or disulfiram (Antabuse)."}, {"cat": "Cautions", "f": "Besides neonates, which other patient group needs caution with alcohol-containing vehicles?", "b": "The elderly, and patients on medications that interact with or are depressed by alcohol."}, {"cat": "Cautions", "f": "What has been implicated in adverse effects in preterm infants, besides alcohol?", "b": "Preservatives."}, {"cat": "Cautions", "f": "What serious syndrome can benzyl alcohol cause in neonates?", "b": "Gasping syndrome."}, {"cat": "Cautions", "f": "What does gasping syndrome involve?", "b": "Deterioration of multiple organ systems, and eventually death."}, {"cat": "Cautions", "f": "What adverse effects has propylene glycol been linked to in preterm infants?", "b": "Seizures and stupor."}, {"cat": "Packaging", "f": "What type of container mouth should suspensions be packaged in?", "b": "A wide mouth."}, {"cat": "Packaging", "f": "Why do suspensions need airspace above the liquid in the container?", "b": "To permit adequate shaking and ease of pouring."}, {"cat": "Packaging", "f": "How should most suspensions be stored?", "b": "In tight containers, protected from freezing, excessive heat, and light."}, {"cat": "Packaging", "f": "Why must a suspension be shaken before each use?", "b": "To ensure a uniform distribution of solid in the vehicle, giving a uniform and proper dose."}, {"cat": "Oral examples", "f": "Give an example of an antacid oral suspension.", "b": "Maalox (alumina and simethicone)."}, {"cat": "Oral examples", "f": "Give an example of an antibacterial oral suspension.", "b": "Bactrim suspension (or Metheprim suspension)."}, {"cat": "Oral examples", "f": "Which three antibiotics are given as examples of dry powder for oral suspension?", "b": "Ampicillin, cefixime, and erythromycin estolate."}, {"cat": "Oral examples", "f": "Name two examples of analgesic oral suspensions.", "b": "Ponstan and Prufen (NSAIDs)."}, {"cat": "Oral examples", "f": "Which drug is the lecture's example of an anthelmintic oral suspension?", "b": "Thiabendazole."}, {"cat": "Oral examples", "f": "Which drug is the lecture's example of an anticonvulsant oral suspension?", "b": "Tegretol (carbamazepine)."}, {"cat": "Oral examples", "f": "Which drug is the lecture's example of an antifungal oral suspension?", "b": "Nystatin drop."}, {"cat": "Oral examples", "f": "What two drugs are combined in the Albenzol Plus oral suspension example?", "b": "Ivermectin and albendazole."}, {"cat": "Oral examples", "f": "What is Mycostatin oral suspension, and what is its labeled strength?", "b": "A ready-mixed nystatin oral suspension, 100,000 units per mL."}, {"cat": "Other routes", "f": "What is Barium Sulfate for Suspension, USP used for?", "b": "Diagnostic visualization of the gastrointestinal tract."}, {"cat": "Other routes", "f": "By which two routes can Barium Sulfate suspension be given?", "b": "Orally or rectally."}, {"cat": "Other routes", "f": "In what ready-to-use format is a Barium Sulfate enema also available?", "b": "Enema units with the prepared suspension in a disposable bag."}, {"cat": "Other routes", "f": "What condition is mesalamine suspension used to treat?", "b": "Crohn disease and distal ulcerative colitis."}, {"cat": "Other routes", "f": "What is the chemical name for mesalamine?", "b": "5-aminosalicylic acid."}, {"cat": "Other routes", "f": "Give the example otic suspension combination from the lecture.", "b": "Polymyxin B sulfate, neomycin sulfate, and hydrocortisone."}, {"cat": "Other routes", "f": "Give the lecture's example of an ophthalmic suspension.", "b": "Hydrocortisone eye drop suspension."}, {"cat": "Particle size", "f": "What is the maximum particle size recommended for an ophthalmic suspension?", "b": "About 10 micrometers (μm)."}, {"cat": "Particle size", "f": "What happens if ophthalmic suspension particles greatly exceed this size?", "b": "They cause pain or a degree of discomfort on instillation."}, {"cat": "Particle size", "f": "What should a topical suspension never feel like on the skin?", "b": "Gritty."}, {"cat": "Particle size", "f": "What must injectable suspension particles be able to do?", "b": "Pass freely through a syringe needle."}, {"cat": "Particle size", "f": "What crystal shape is often desirable for injectable suspensions?", "b": "Needle-shaped crystals."}, {"cat": "Injectable & Thixotropy", "f": "What does 'thixotropic' mean for a suspension?", "b": "It undergoes a reversible gel-to-sol transformation."}, {"cat": "Injectable & Thixotropy", "f": "What forms in a thixotropic suspension when it sits undisturbed?", "b": "A network gel with a rigid matrix."}, {"cat": "Injectable & Thixotropy", "f": "What happens to a thixotropic suspension when it is shaken?", "b": "The matrix relaxes and forms a sol (fluid)."}, {"cat": "Injectable & Thixotropy", "f": "Describe a thixotropic suspension's overall behavior in one line.", "b": "Viscous during storage, but loses consistency and becomes fluid upon shaking."}, {"cat": "Stability", "f": "Name three factors that contribute to appreciable suspension stability.", "b": "Small particle size, increased viscosity, and controlled temperature."}, {"cat": "Stability", "f": "What happens to total surface area when particle size is reduced?", "b": "It increases."}, {"cat": "Stability", "f": "What happens to a system's viscosity when the solid–liquid interface increases?", "b": "Viscosity increases."}, {"cat": "Stability", "f": "How does increasing continuous-phase viscosity affect the sedimentation rate?", "b": "It reduces (slows) the rate of sedimentation."}, {"cat": "Stability", "f": "What is added to the external phase to increase viscosity?", "b": "Thickening agents."}, {"cat": "Stability", "f": "How does higher viscosity affect the rate of drug release from a suspension?", "b": "It slows the rate of drug release."}, {"cat": "Stability", "f": "When might slower drug release from a viscous suspension be desirable?", "b": "For depot (long-acting) preparations."}, {"cat": "Stability", "f": "What defect can fluctuating storage temperature cause in a suspension?", "b": "Caking and claying."}, {"cat": "Ostwald ripening", "f": "What happens to a solid's solubility when temperature is raised?", "b": "Solubility increases."}, {"cat": "Ostwald ripening", "f": "What happens to a solid's solubility when temperature is lowered?", "b": "Solubility decreases."}, {"cat": "Ostwald ripening", "f": "In simple terms, what is Ostwald ripening?", "b": "Small particles seem to disappear and large particles grow after repeated temperature changes."}, {"cat": "Commercial examples", "f": "What flavor and vehicle type is Clarithromycin for Oral Suspension, USP (Sandoz) prepared in, and its reconstituted strength?", "b": "A fruit-punch flavored aqueous vehicle; 125 mg per 5 mL (one teaspoonful) when reconstituted."}];
+
+const flashcardsMedium = [{"cat": "Compounding", "f": "Outline the general extemporaneous method for turning a capsule's contents into an oral suspension.", "b": "Empty the capsule contents (or crush tablets) into a mortar, slowly add the vehicle while triturating with a pestle to form a paste, then dilute the paste to the desired final volume."}, {"cat": "Compounding", "f": "Why might a pharmacist choose a commercial vehicle such as OraPlus instead of a homemade one?", "b": "Commercial Ora-family vehicles are pre-formulated and validated, giving a convenient, reliable base for converting a solid dosage form into a liquid suspension."}, {"cat": "Compounding", "f": "Why is the vehicle added 'slowly' to the crushed powder rather than all at once?", "b": "Slow addition while triturating forms a smooth paste and avoids clumping, ensuring even drug dispersion before final dilution."}, {"cat": "Compounding", "f": "What quality problem could result if the vehicle were poured in all at once instead of gradually?", "b": "Uneven wetting and poor dispersion of the powder, risking a lumpy, non-uniform suspension."}, {"cat": "Compounding", "f": "Why are prednisone, ketoconazole, and rifampin specifically cited as needing extemporaneous suspensions?", "b": "They are examples of drugs not commercially available in a convenient liquid form, so patients who cannot swallow solids need them compounded."}, {"cat": "Cautions", "f": "Which four categories of excipients should generally be excluded from a neonatal suspension, and why?", "b": "Preservatives, colorings, flavorings, and alcohol — each carries potential for acute or long-term adverse effects in the neonate."}, {"cat": "Cautions", "f": "Explain, mechanistically, why alcohol is dangerous in a neonatal formulation.", "b": "In the neonate, alcohol can alter liver function, cause gastric irritation, and cause neurologic depression."}, {"cat": "Cautions", "f": "Why is Aromatic Elixir, NF specifically flagged as unsuitable for neonatal suspensions?", "b": "Because it contains 21–23% alcohol, carrying the hepatic, gastric, and neurologic risks alcohol poses to neonates."}, {"cat": "Cautions", "f": "Why would a pharmacist avoid an alcohol-containing vehicle for a patient taking metronidazole or disulfiram?", "b": "Combining alcohol with these drugs can make the patient get violently ill."}, {"cat": "Cautions", "f": "Why are preservatives a specific concern in preterm infants?", "b": "Preservatives have been implicated in adverse effects in preterm infants."}, {"cat": "Cautions", "f": "Explain the mechanism by which benzyl alcohol harms neonates.", "b": "It can cause gasping syndrome — deterioration of multiple organ systems that can progress to death — so it should be omitted from neonatal formulations."}, {"cat": "Cautions", "f": "Why does propylene glycol specifically concern preterm infants rather than all patients?", "b": "It has been implicated in problems such as seizures and stupor in some preterm infants."}, {"cat": "Cautions", "f": "Rank alcohol, benzyl alcohol, and propylene glycol by the specific neonatal harms linked to each.", "b": "Alcohol → liver/gastric/neurologic effects; benzyl alcohol → gasping syndrome/organ deterioration/death; propylene glycol → seizures and stupor."}, {"cat": "Packaging", "f": "Why does a suspension need a wide-mouth container rather than a narrow-neck one?", "b": "The wide mouth gives adequate airspace above the liquid, allowing effective shaking to redisperse settled solid and easier pouring."}, {"cat": "Packaging", "f": "What could go wrong if a suspension is stored where temperature fluctuates or the product freezes?", "b": "It risks physical instability, so suspensions should be kept in tight containers protected from freezing, excessive heat, and light."}, {"cat": "Packaging", "f": "Why does shaking before each dose ensure accurate dosing rather than just being a formality?", "b": "It redistributes settled solid uniformly through the vehicle so each dose contains the correct, uniform amount of drug."}, {"cat": "Oral examples", "f": "Why are ampicillin, cefixime, and erythromycin estolate typically supplied as a dry powder rather than a ready-made liquid?", "b": "These antibiotics are unstable in aqueous solution, so they are reconstituted as a suspension shortly before use to preserve potency."}, {"cat": "Oral examples", "f": "Classify Ponstan and Prufen by suspension category.", "b": "Analgesic oral suspensions (NSAIDs)."}, {"cat": "Oral examples", "f": "A patient has a helminth infection. Which oral suspension example applies, and what category is it?", "b": "Thiabendazole, an anthelmintic oral suspension."}, {"cat": "Oral examples", "f": "A neonate has oral thrush. Which oral suspension example applies, and what category is it?", "b": "Nystatin drop, an antifungal oral suspension."}, {"cat": "Oral examples", "f": "Compare Albenzol Plus and Mycostatin by therapeutic category.", "b": "Albenzol Plus (ivermectin + albendazole) is an anthelmintic combination; Mycostatin (nystatin) is an antifungal suspension."}, {"cat": "Other routes", "f": "Why can Barium Sulfate suspension be given by two different routes for the same general diagnostic purpose?", "b": "Because it visualizes different parts of the GI tract — oral for the upper tract, rectal enema for the lower tract/colon."}, {"cat": "Other routes", "f": "What formulation feature makes Barium Sulfate for Suspension, USP convenient to reconstitute?", "b": "It is supplied as a bulk powder that already contains the required suspending agents."}, {"cat": "Other routes", "f": "Why does an otic suspension combine an antibiotic with a corticosteroid, as in the polymyxin B/neomycin/hydrocortisone example?", "b": "To treat infection with the antibiotics and reduce inflammation with hydrocortisone at the same time."}, {"cat": "Particle size", "f": "Explain the clinical reasoning behind the 10 μm ceiling for ophthalmic suspension particles.", "b": "Below 10 μm, the patient feels no pain on instillation; larger particles irritate the sensitive ocular surface, causing pain or discomfort."}, {"cat": "Particle size", "f": "How does particle size influence both comfort and performance in a topical suspension?", "b": "Smaller particles avoid a gritty feel, increase covering/protective power, and affect dissolution rate, which controls the rate of penetration."}, {"cat": "Particle size", "f": "Why is there no fixed micron ceiling for injectable suspensions, unlike ophthalmic ones?", "b": "The requirement is functional — particles simply must be small enough to pass freely through the syringe needle."}, {"cat": "Particle size", "f": "Why are needle-shaped crystals often specifically chosen for injectable suspensions?", "b": "Their shape favors formation of a thixotropic system, which is desirable for ease of injection after shaking."}, {"cat": "Injectable & Thixotropy", "f": "Explain, step by step, what happens inside a thixotropic suspension between storage and use.", "b": "At rest, particles link into a network gel with a rigid matrix that stabilizes the suspension; upon shaking, the matrix relaxes into a fluid sol for easy use."}, {"cat": "Injectable & Thixotropy", "f": "Why is thixotropy considered desirable for an injectable suspension specifically?", "b": "It keeps the suspension viscous and stable during storage, yet becomes fluid on shaking for ease of drawing up and injecting."}, {"cat": "Injectable & Thixotropy", "f": "If a formulator wants both good syringeability and good storage stability, what particle characteristic should be favored?", "b": "Needle-shaped crystals, because they promote thixotropic behavior — gel-like at rest, fluid on shaking."}, {"cat": "Stability", "f": "Explain the chain of cause and effect from reducing particle size to increasing suspension viscosity.", "b": "Smaller particles increase total surface area, which increases the solid–liquid interface, which raises the viscosity of the system."}, {"cat": "Stability", "f": "Why does increasing continuous-phase viscosity improve physical stability?", "b": "Higher vehicle viscosity reduces the rate of sedimentation of particles, so the suspension resists settling."}, {"cat": "Stability", "f": "What trade-off must a formulator weigh when adding thickening agents to boost viscosity?", "b": "Higher viscosity improves settling stability but slows the rate of drug release from the suspension."}, {"cat": "Stability", "f": "In what clinical scenario is slower drug release from a viscous suspension actually an advantage?", "b": "In depot (sustained/long-acting) preparations, where slow, prolonged release is the therapeutic goal."}, {"cat": "Stability", "f": "Why is repeated temperature fluctuation, rather than one deviation, particularly damaging to a suspension?", "b": "Repeated heating/cooling cycles repeatedly shift equilibrium solubility, progressively causing caking, claying, and Ostwald ripening."}, {"cat": "Stability", "f": "Why does a rise in temperature raise the risk of later instability on cooling?", "b": "Solubility rises with heat, dissolving small particles; on cooling, that material redeposits onto existing larger particles instead of reforming small ones."}, {"cat": "Ostwald ripening", "f": "Walk through the Ostwald ripening cycle across a heating-then-cooling temperature change.", "b": "At medium temperature, small and large particles coexist; on heating, solubility rises and small particles seem to dissolve/disappear; on cooling, solubility falls and the dissolved material redeposits onto the larger particles, making them grow."}, {"cat": "Ostwald ripening", "f": "Why do small particles 'disappear' before large particles during heating in Ostwald ripening?", "b": "Small particles are more soluble/dissolve preferentially as solubility rises with heat."}, {"cat": "Ostwald ripening", "f": "Why doesn't cooling simply reform the original small particles during Ostwald ripening?", "b": "The redissolved material recrystallizes preferentially onto existing larger particle surfaces rather than forming new small particles."}, {"cat": "Ostwald ripening", "f": "What storage practice directly prevents Ostwald ripening, based on its cause?", "b": "Storing suspensions at a stable, controlled temperature, avoiding freezing, excessive heat, and repeated temperature cycling."}, {"cat": "Cautions", "f": "A patient on both metronidazole and living in a neonatal household needs a vehicle chosen carefully. What single excipient risk applies to both scenarios?", "b": "Alcohol content in the vehicle — it harms the neonate directly and triggers a severe reaction in the metronidazole patient."}, {"cat": "Packaging", "f": "Why is 'adequate airspace' above the liquid necessary, beyond simple convenience?", "b": "Without airspace, the contents cannot be agitated effectively, so the solid cannot be redispersed for accurate shaking-dependent dosing."}, {"cat": "Oral examples", "f": "A physician wants an antacid combination containing alumina and simethicone. Name the branded example given.", "b": "Maalox."}, {"cat": "Other routes", "f": "What is the chemical name for mesalamine, and what does that tell you about its class?", "b": "5-aminosalicylic acid — an aminosalicylate anti-inflammatory used locally in the bowel."}, {"cat": "Particle size", "f": "Compare the particle-size rationale for ophthalmic versus topical suspensions.", "b": "Ophthalmic needs a strict ≤10 μm ceiling to avoid ocular pain; topical has no fixed number but needs fine particles to avoid grittiness and improve covering/penetration."}, {"cat": "Stability", "f": "What is the technical term for the reversible gel-to-sol change seen in some suspensions, and what triggers it?", "b": "Thixotropy; triggered by mechanical stress such as shaking."}, {"cat": "Compounding", "f": "Why is diluting to final volume done only after the paste forms, rather than at the start?", "b": "Forming a concentrated paste first ensures thorough, even wetting and dispersion of the powder before it is diluted, preventing lumps in the final suspension."}, {"cat": "Cautions", "f": "Why do both neonates and elderly patients appear in the same caution about liquid formulations?", "b": "Both groups may be especially sensitive to CNS-depressant or interacting effects of alcohol-containing vehicles, or to medications that cause severe reactions with alcohol."}, {"cat": "Stability", "f": "Summarize how particle size and viscosity together affect both stability and drug release.", "b": "Smaller particle size and higher viscosity both slow sedimentation and improve physical stability, but higher viscosity also slows the rate of drug release."}];
+
+const flashcardsHard = [{"cat": "Cautions", "f": "A neonate needs an extemporaneous suspension. Available vehicles: Aromatic Elixir NF, an alcohol-free Ora-family product, and a syrup preserved with benzyl alcohol. Which is appropriate, and why eliminate the other two?", "b": "The alcohol-free Ora-family product is appropriate. Aromatic Elixir NF must be eliminated for its 21–23% alcohol (liver, gastric, neurologic risk); the benzyl-alcohol-preserved syrup must be eliminated because benzyl alcohol can cause fatal gasping syndrome in neonates."}, {"cat": "Cautions", "f": "A preterm infant's suspension contains propylene glycol as a co-solvent. What toxicities should be monitored, and why is this population uniquely vulnerable?", "b": "Seizures and stupor; preterm infants have immature hepatic/renal clearance, so propylene glycol accumulates more readily than in older patients."}, {"cat": "Cautions", "f": "Explain why a pharmacist should be as cautious with vehicle choice for a metronidazole patient as for a neonate, despite the very different populations.", "b": "In both cases the danger is alcohol in the vehicle — direct organ toxicity in the neonate, a violent-illness reaction in the metronidazole patient — so the same rule (avoid alcohol-containing vehicles like Aromatic Elixir NF) applies to both."}, {"cat": "Stability", "f": "Integrate particle size and viscosity to explain why reducing particle size can both improve stability and complicate drug release.", "b": "Reducing particle size increases total surface area and the solid–liquid interface, raising viscosity and slowing sedimentation (better stability), but that same higher viscosity can slow drug release — a trade-off depending on whether fast onset or depot release is desired."}, {"cat": "Stability", "f": "A suspension is stored through days of fluctuating temperature. Predict two distinct physical changes and explain each mechanism.", "b": "(1) Caking/claying, from destabilization of the settled sediment structure; (2) Ostwald ripening, where heating raises solubility (small particles dissolve) and cooling lowers it (material redeposits on larger particles), so small particles vanish and large ones grow."}, {"cat": "Injectable & Thixotropy", "f": "Explain how particle shape, thixotropy, and syringeability connect in an injectable suspension formulated with needle-shaped crystals.", "b": "Needle-shaped crystals favor a thixotropic system: at rest they link into a rigid gel that resists sedimentation during storage, but shaking relaxes the gel into a fluid sol that passes freely through the needle for easy, uniform dosing."}, {"cat": "Particle size", "f": "Justify a distinct particle-size rationale for ophthalmic, topical, and injectable suspensions.", "b": "Ophthalmic: ≤10 μm to avoid corneal pain; topical: no strict ceiling, but fine enough to avoid grittiness and maximize covering power/penetration; injectable: small (often needle-shaped) enough to pass freely through the needle."}, {"cat": "Cautions", "f": "Compare benzyl alcohol toxicity with propylene glycol toxicity in neonates, and explain why both remain acceptable in many adult formulations.", "b": "Benzyl alcohol causes gasping syndrome (multi-organ deterioration, potentially fatal); propylene glycol causes seizures and stupor — both reflect immature neonatal metabolism/clearance that does not apply to adults, whose mature hepatic/renal systems handle these excipients safely."}, {"cat": "Ostwald ripening", "f": "Explain why Ostwald ripening is described as occurring 'in both directions' of temperature change.", "b": "Because equilibrium solubility moves in both directions with temperature — each heating phase dissolves small particles and each subsequent cooling phase deposits that material onto larger particles, so cycling in either direction contributes cumulatively."}, {"cat": "Stability", "f": "Explain the full causal chain linking a highly viscous depot suspension design back to particle size and stability principles.", "b": "A depot suspension uses small particle size and/or thickening agents to raise continuous-phase viscosity; higher viscosity reduces sedimentation rate (better storage stability) and, as a direct consequence, slows the rate of drug release after injection — the desired sustained-release effect."}, {"cat": "Packaging", "f": "Contrast the general storage/packaging requirements for all suspensions with the specific cautions for neonatal/preterm populations.", "b": "All suspensions: wide-mouth, airspace, tight container, protection from freezing/heat/light, shake before use. Neonate/preterm-specific: omit alcohol, preservatives, colorings, flavorings; avoid benzyl alcohol (gasping syndrome) and propylene glycol (seizures/stupor)."}, {"cat": "Other routes", "f": "Explain how a single barium sulfate bulk powder can serve both an upper-GI series and a lower-GI enema.", "b": "It is supplied as a bulk powder already containing the required suspending agents, so it can be reconstituted as an oral suspension for the upper GI tract or as a rectal enema (also available as ready-to-use disposable bag units) for the lower GI tract."}, {"cat": "Other routes", "f": "Why is mesalamine suspension specifically useful for distal, rather than proximal, colonic disease?", "b": "It is used topically/locally in the bowel for distal ulcerative colitis, so it delivers high local drug concentration to distal disease rather than reaching more proximal segments."}, {"cat": "Compounding", "f": "Discuss the stability-versus-practicality trade-off between a low-viscosity simple vehicle and a higher-viscosity Ora-family vehicle for compounding.", "b": "The higher-viscosity vehicle reduces sedimentation rate and improves uniformity between shakes but may pour less easily and slow drug release; the low-viscosity vehicle pours and doses more easily but sediments faster, requiring more vigorous or frequent shaking."}, {"cat": "Cautions", "f": "Explain how the neonatal alcohol caution and the metronidazole/disulfiram alcohol caution both trace back to the same vehicle warning.", "b": "Aromatic Elixir, NF is flagged for both because its 21–23% alcohol content is unsuitable for the neonate (hepatic/gastric/neurologic toxicity) and for the metronidazole/disulfiram patient (severe alcohol-interaction reaction)."}, {"cat": "Stability", "f": "Are caking/claying and Ostwald ripening the same phenomenon? Explain the distinction.", "b": "No — caking/claying is formation of a hard, difficult-to-redisperse sediment from temperature-driven destabilization, while Ostwald ripening is a specific solubility-driven process where small particles dissolve and redeposit onto larger particles; both are temperature-related but mechanistically distinct."}, {"cat": "Oral examples", "f": "Why might ampicillin, cefixime, and erythromycin estolate be supplied as dry powders rather than ready-to-use liquids, connecting to suspension stability principles?", "b": "These antibiotics are chemically unstable in aqueous solution, so supplying them as dry powder for reconstitution shortly before use avoids the degradation and stability problems of long-term liquid storage."}, {"cat": "Particle size", "f": "Predict the combined effect of reducing particle size in a topical suspension on skin feel, covering power, and penetration.", "b": "Skin feel improves (less/no grittiness); covering/protective power increases; and because particle size affects dissolution rate, penetration rate typically increases as particles get finer."}, {"cat": "Packaging", "f": "Explain why 'shake well before use' is a dosing-safety requirement, not just a convenience instruction.", "b": "Suspended solid settles over time; without redispersion, early doses poured would be sub-therapeutic (mostly vehicle) while later doses would be supratherapeutic (concentrated sediment) — shaking ensures each dose delivers the intended amount."}, {"cat": "Packaging", "f": "A technician mistakenly freezes a suspension overnight. What could go wrong, based on storage guidance?", "b": "Suspensions should be protected from freezing, which can disrupt suspension structure and promote irreversible aggregation or particle growth on thawing, compromising stability and uniform dosing."}, {"cat": "Stability", "f": "Why are 'small particle size' and 'increased continuous-phase viscosity' listed as separate stability factors, even though small particle size itself raises viscosity?", "b": "They are related but distinct levers — reduced particle size raises viscosity as a secondary consequence of increased interface, while increasing viscosity via thickening agents is a direct, independent formulation strategy."}, {"cat": "Cautions", "f": "Explain why a neonatal formulation avoids flavorings/colorings while a pediatric product like berry-flavored ibuprofen suspension includes them.", "b": "The neonatal caution applies specifically to neonates, whose immature physiology makes even flavorings/colorings carry adverse-effect potential; the flavored product is for older children, a population without that same specific vulnerability."}, {"cat": "Injectable & Thixotropy", "f": "What would happen clinically if an injectable suspension were not thixotropic and remained a rigid gel even after shaking?", "b": "It would not liquefy on shaking, making it difficult or impossible to draw into a syringe or inject through a needle, defeating the purpose of a liquid injectable dosage form."}, {"cat": "Compounding", "f": "Synthesize an ideal compounding and packaging plan for a preterm neonate's antifungal suspension.", "b": "Use an alcohol-, benzyl-alcohol-, and propylene-glycol-free Ora-family-type vehicle without unnecessary preservatives/colorings/flavorings; package in a wide-mouth, tight, light-protected container away from freezing/heat; and label to shake well before each dose."}, {"cat": "Injectable & Thixotropy", "f": "Why does the lecture emphasize needle-shaped crystals rather than just 'small particles' for injectable design?", "b": "Particle shape, not just size, influences whether particles interlock into a thixotropic network; needle (acicular) crystals link more readily into a gel structure at rest than equant particles of the same size."}, {"cat": "Stability", "f": "A suspension shows both caking and increased average particle size after weeks of unstable shelf temperature. What single storage failure explains both?", "b": "Uncontrolled temperature fluctuation — it can cause caking/claying directly and simultaneously drive Ostwald ripening through repeated solubility cycling."}, {"cat": "Particle size", "f": "Why do particle-size requirements differ so much between ophthalmic (≤10 μm) and injectable suspensions (no fixed value, needle-passable)?", "b": "The ophthalmic limit is driven by ocular comfort/pain tolerance (a sensory threshold), while the injectable requirement is driven by the physical needle bore and the desire for thixotropic behavior, which depends more on crystal shape than an absolute size cutoff."}, {"cat": "Compounding", "f": "Outline the full workflow for compounding a new poorly water-soluble tablet-only drug into a suspension for a neonate who cannot swallow.", "b": "Crush tablets in a mortar; slowly triturate in a suitable vehicle to form a paste; dilute to final volume; choose a vehicle free of alcohol, preservatives, colorings, flavorings; package wide-mouth, tight, away from freezing/heat/light; label to shake before each dose."}, {"cat": "Stability", "f": "Why does the lecture link viscosity to drug release, and what does this imply for a fast-acting analgesic suspension versus a depot corticosteroid suspension?", "b": "Higher viscosity slows drug release, so a fast-acting analgesic suspension should be lower viscosity for prompt onset, while a depot corticosteroid suspension benefits from higher viscosity for slow, sustained release."}, {"cat": "Packaging", "f": "Why does even a slow-sedimenting, highly viscous suspension still need the 'shake before use' instruction?", "b": "Because it will still eventually settle over time (e.g., over weeks on a shelf), so shaking remains necessary to guarantee dose uniformity at the moment of administration."}, {"cat": "Other routes", "f": "Contrast how barium sulfate's suspension route (oral vs rectal) is chosen versus how mesalamine's route is implied.", "b": "Barium sulfate's route (oral vs rectal) is chosen based on which GI segment needs diagnostic visualization; mesalamine's route is implied by the distal colonic disease it treats, favoring local (typically rectal) delivery for distal ulcerative colitis."}, {"cat": "Cautions", "f": "List the complete neonatal excipient 'red flag' checklist implied by the lecture, with the harm linked to each.", "b": "Alcohol (liver dysfunction, gastric irritation, neurologic depression); benzyl alcohol (gasping syndrome/organ deterioration/death); propylene glycol (seizures, stupor); preservatives generally (adverse effects in preterm infants); unnecessary colorings/flavorings (acute or long-term adverse effect potential)."}, {"cat": "Stability", "f": "Explain how maximizing physical stability could inadvertently create a suspension with poor onset of action.", "b": "Minimizing particle size and maximizing viscosity slows sedimentation (good stability), but the same high viscosity also slows drug release — so an over-optimized 'stable' suspension can have delayed onset unless a depot effect is specifically desired."}, {"cat": "Packaging", "f": "Compare the purpose of a wide-mouth container with the purpose of thixotropy as two solutions to the same usability problem.", "b": "Both restore uniform dosing after settling: the wide-mouth container gives physical room to shake and redisperse solid by hand, while thixotropy is a rheological solution that makes the suspension liquefy on shaking or flow through a needle on its own."}, {"cat": "Cautions", "f": "A ketoconazole suspension recipe specifies Aromatic Elixir NF for a neonate. Identify the violation and the correction.", "b": "It violates the neonatal alcohol caution (21–23% alcohol risking liver/gastric/neurologic harm); the correction substitutes an alcohol-free vehicle, omits unnecessary preservatives/colorings/flavorings, and follows standard compounding steps."}, {"cat": "Packaging", "f": "Why is 'protected from light' included in storage guidance alongside freezing and excessive heat, even though light wasn't tied to a specific mechanism like Ostwald ripening?", "b": "Light protection is a general good-practice safeguard against photodegradation of the active ingredient or excipients, reflecting the broader principle that suspensions should be shielded from all environmental stressors, not just temperature."}, {"cat": "Stability", "f": "A formulator raises viscosity to slow sedimentation in an immediate-release antibacterial suspension for acute infection. What downside should be weighed?", "b": "The higher viscosity that improves storage stability also slows the rate of drug release, potentially delaying onset of the antibacterial effect for an acute infection."}, {"cat": "Cautions", "f": "Reconcile the neonatal exclusion of colorings/flavorings with the pediatric inclusion of berry flavoring in a children's ibuprofen suspension.", "b": "The neonatal caution reflects the neonate's unique vulnerability to acute/long-term adverse effects from any added excipient, while flavoring in an older-children's product serves palatability/compliance without that same specific risk."}, {"cat": "Stability", "f": "Summarize, as a capstone question, how particle size, vehicle viscosity, temperature control, and packaging together determine overall suspension stability.", "b": "Small particle size raises the solid–liquid interface and viscosity, slowing sedimentation; added thickening agents further slow sedimentation at the cost of slower drug release; stable temperature prevents caking and Ostwald ripening; and proper wide-mouth, tight, light-protected packaging plus shaking before use ensures uniform dosing despite any settling."}, {"cat": "Particle size", "f": "Why might a formulator favor needle-shaped crystals for an injectable suspension over spherical particles of the exact same size?", "b": "Needle-shaped crystals interlock more readily into a gel network at rest, promoting the thixotropic behavior (stable gel at rest, fluid on shaking) that spherical particles of the same size would not reliably produce."}];
+
+const flashLevels = {1:flashcardsEasy, 2:flashcardsMedium, 3:flashcardsHard};
+let currentFlashLevel = 1;
+let flashcards = flashLevels[1];
+let deck = flashcards.slice();
+let currentIndex = 0;
+
+function shuffleArr(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+
+function populateCategoryFilter(){
+  const sel = document.getElementById('catFilter');
+  sel.innerHTML = '<option value="all">All topics</option>';
+  const cats = [...new Set(flashcards.map(c=>c.cat))];
+  cats.forEach(c=>{
+    const opt = document.createElement('option');
+    opt.value = c; opt.textContent = c;
+    sel.appendChild(opt);
+  });
+}
+
+function setFlashLevel(level){
+  currentFlashLevel = level;
+  [1,2,3].forEach(l=>document.getElementById('flashLvl-'+l).classList.remove('active'));
+  document.getElementById('flashLvl-'+level).classList.add('active');
+  flashcards = flashLevels[level];
+  deck = flashcards.slice();
+  currentIndex = 0;
+  populateCategoryFilter();
+  document.getElementById('flashLevelCount').textContent = `${flashcards.length} cards at this level`;
+  renderCard();
+}
+
+function renderCard(){
+  const card = deck[currentIndex];
+  document.getElementById('flashTagFront').textContent = card.cat;
+  document.getElementById('flashTagBack').textContent = card.cat;
+  document.getElementById('flashFrontText').textContent = card.f;
+  document.getElementById('flashBackText').textContent = card.b;
+  document.getElementById('flashCounter').textContent = `Card ${currentIndex+1} of ${deck.length}`;
+  document.getElementById('flashcard').classList.remove('flipped');
+}
+function flipCard(){ document.getElementById('flashcard').classList.toggle('flipped'); }
+function nextCard(){ currentIndex = (currentIndex+1) % deck.length; renderCard(); }
+function prevCard(){ currentIndex = (currentIndex-1+deck.length) % deck.length; renderCard(); }
+function shuffleDeck(){ shuffleArr(deck); currentIndex=0; renderCard(); }
+function filterCategory(cat){
+  deck = cat==='all' ? flashcards.slice() : flashcards.filter(c=>c.cat===cat);
+  currentIndex = 0;
+  renderCard();
+}
+populateCategoryFilter();
+document.getElementById('flashLevelCount').textContent = `${flashcards.length} cards at this level`;
+renderCard();
+
+/* ============ QUIZ (3 difficulty levels) ============ */
+const quizEasy = [{"q": "What best describes an extemporaneous suspension?", "options": ["A suspension mass-produced in a factory", "A suspension specially compounded by the pharmacist when no commercial liquid form exists", "A suspension that never needs shaking", "A suspension only used in veterinary medicine"], "correct": 1}, {"q": "Which of these is NOT listed as an example of an extemporaneously compounded oral suspension?", "options": ["Prednisone", "Ketoconazole", "Rifampin (Rifadin)", "Insulin"], "correct": 3}, {"q": "What tool is used to crush tablets or empty capsules when compounding a suspension?", "options": ["A syringe", "A mortar and pestle", "A centrifuge", "A pipette"], "correct": 1}, {"q": "What is formed when the vehicle is first slowly mixed with the drug powder during compounding?", "options": ["A paste", "A gas", "A crystal", "A film"], "correct": 0}, {"q": "After the paste forms during compounding, what happens next?", "options": ["It is frozen", "It is diluted to the desired final volume", "It is discarded", "It is filtered through charcoal"], "correct": 1}, {"q": "Which commercial vehicle family is mentioned for extemporaneous compounding?", "options": ["The Ora family", "The Elixir family", "The Syrup family", "The Tincture family"], "correct": 0}, {"q": "Which company manufactures the Ora family of vehicles?", "options": ["Pfizer", "Paddock Laboratories", "GlaxoSmithKline", "Sandoz"], "correct": 1}, {"q": "Should alcohol be included in a liquid suspension for a neonate?", "options": ["Yes, always", "No, it should be omitted unless absolutely necessary", "Only in small amounts for taste", "Only if the pharmacy stocks it"], "correct": 1}, {"q": "Besides alcohol, which of these should also be avoided in a neonatal suspension?", "options": ["Active drug", "Preservatives, colorings, and flavorings", "Water", "Sugar entirely"], "correct": 1}, {"q": "What can alcohol do to a neonate's liver?", "options": ["Improve its function", "Alter (impair) its function", "Have no effect", "Double its size"], "correct": 1}, {"q": "Besides liver effects, what other harms can alcohol cause a neonate?", "options": ["Gastric irritation and neurologic depression", "Improved digestion", "Enhanced immunity", "Faster growth"], "correct": 0}, {"q": "Which official vehicle contains 21% to 23% alcohol?", "options": ["Ora-Sweet SF", "Aromatic Elixir, NF", "OraPlus", "Simple Syrup"], "correct": 1}, {"q": "Which drug can make a patient violently ill if combined with alcohol?", "options": ["Amoxicillin", "Metronidazole (Flagyl)", "Ibuprofen", "Nystatin"], "correct": 1}, {"q": "Besides neonates, which patient group also needs caution with alcohol-containing vehicles?", "options": ["Athletes", "The elderly, or patients on alcohol-interacting medication", "Vegetarians", "Healthy adults only"], "correct": 1}, {"q": "What has been implicated in adverse effects in preterm infants, besides alcohol?", "options": ["Preservatives", "Active drug substance always", "Purified water", "Sugar"], "correct": 0}, {"q": "What serious syndrome can benzyl alcohol cause in neonates?", "options": ["Gasping syndrome", "Restless leg syndrome", "Down syndrome", "Serotonin syndrome"], "correct": 0}, {"q": "What does gasping syndrome involve?", "options": ["Mild skin rash only", "Deterioration of multiple organ systems, potentially death", "Temporary hiccups", "Improved breathing"], "correct": 1}, {"q": "What adverse effects has propylene glycol been linked to in preterm infants?", "options": ["Seizures and stupor", "Improved alertness", "Hair growth", "No known effects"], "correct": 0}, {"q": "What type of container mouth should suspensions be packaged in?", "options": ["Narrow mouth", "Wide mouth", "No mouth (sealed vial only)", "Screw-top ampule only"], "correct": 1}, {"q": "Why do suspensions need airspace above the liquid in the container?", "options": ["To permit adequate shaking and ease of pouring", "To reduce the cost of packaging", "To allow evaporation of the drug", "To prevent light exposure only"], "correct": 0}, {"q": "How should most suspensions be stored?", "options": ["In the freezer", "In tight containers, protected from freezing, heat, and light", "In direct sunlight", "In an open, uncovered container"], "correct": 1}, {"q": "Why must a suspension be shaken before each use?", "options": ["To mix the flavor only", "To ensure uniform distribution of solid for a proper, uniform dose", "To thicken the vehicle permanently", "It is not necessary if refrigerated"], "correct": 1}, {"q": "Which is an example of an antacid oral suspension?", "options": ["Maalox", "Tegretol", "Ponstan", "Bactrim"], "correct": 0}, {"q": "Which is an example of an antibacterial oral suspension?", "options": ["Nystatin drop", "Bactrim suspension", "Thiabendazole", "Prufen"], "correct": 1}, {"q": "Which three antibiotics are given as examples of dry powder for oral suspension?", "options": ["Insulin, heparin, warfarin", "Ampicillin, cefixime, erythromycin estolate", "Metformin, glipizide, atorvastatin", "Aspirin, paracetamol, ibuprofen"], "correct": 1}, {"q": "Ponstan and Prufen (NSAIDs) as oral suspensions belong to which category?", "options": ["Antifungal", "Anthelmintic", "Analgesic", "Anticonvulsant"], "correct": 2}, {"q": "Which drug is the example of an anthelmintic oral suspension?", "options": ["Thiabendazole", "Nystatin", "Tegretol", "Maalox"], "correct": 0}, {"q": "Which drug is the example of an anticonvulsant oral suspension?", "options": ["Tegretol", "Bactrim", "Ponstan", "Thiabendazole"], "correct": 0}, {"q": "Which drug is the example of an antifungal oral suspension?", "options": ["Ampicillin", "Nystatin drop", "Metronidazole", "Prufen"], "correct": 1}, {"q": "What two drugs are combined in the Albenzol Plus oral suspension example?", "options": ["Ivermectin and albendazole", "Amoxicillin and clavulanate", "Metronidazole and diloxanide", "Praziquantel and pyrantel"], "correct": 0}, {"q": "What is Mycostatin oral suspension, and what is its labeled strength?", "options": ["Nystatin, 100,000 units per mL", "Ampicillin, 250 mg per 5 mL", "Ibuprofen, 100 mg per 5 mL", "Barium sulfate, 250 mg per mL"], "correct": 0}, {"q": "What is Barium Sulfate for Suspension, USP mainly used for?", "options": ["Pain relief", "Diagnostic visualization of the gastrointestinal tract", "Treating infections", "Lowering blood pressure"], "correct": 1}, {"q": "By which two routes can Barium Sulfate suspension be given?", "options": ["Oral or rectal", "Intravenous only", "Ophthalmic only", "Otic only"], "correct": 0}, {"q": "Barium Sulfate enema units are also available in what ready-to-use format?", "options": ["Glass ampules", "A disposable bag, ready-to-use", "Powder capsules", "Dissolvable tablets"], "correct": 1}, {"q": "Mesalamine (5-aminosalicylic acid) suspension is used to treat:", "options": ["Crohn disease and distal ulcerative colitis", "Otitis media", "Conjunctivitis", "Peptic ulcer"], "correct": 0}, {"q": "A combination otic suspension example includes polymyxin B sulfate, neomycin sulfate, and:", "options": ["Hydrocortisone", "Insulin", "Warfarin", "Metformin"], "correct": 0}, {"q": "Hydrocortisone eye drop suspension is classified as a/an:", "options": ["Otic suspension", "Ophthalmic suspension", "Rectal suspension", "Injectable suspension"], "correct": 1}, {"q": "What is the maximum particle size generally recommended for ophthalmic suspensions?", "options": ["100 μm", "50 μm", "10 μm", "1 μm"], "correct": 2}, {"q": "What happens if ophthalmic suspension particles greatly exceed the recommended size?", "options": ["Better absorption", "Pain or discomfort on instillation", "Faster onset of action", "No noticeable effect"], "correct": 1}, {"q": "A topical suspension should not feel this way on the skin:", "options": ["Smooth", "Gritty", "Cool", "Light"], "correct": 1}, {"q": "For injectable suspensions, particle size must allow particles to:", "options": ["Dissolve completely before injection", "Pass freely through a syringe needle", "Float on top of the vehicle", "Form large visible clumps"], "correct": 1}, {"q": "What crystal shape is often desirable for injectable suspensions?", "options": ["Spherical", "Needle-shaped", "Cubic", "Irregular flakes only"], "correct": 1}, {"q": "Thixotropy is best described as:", "options": ["A permanent solid-to-liquid change", "A reversible gel-to-sol transformation", "An irreversible chemical reaction", "A process only in dry powders"], "correct": 1}, {"q": "What forms in a thixotropic suspension when it sits undisturbed?", "options": ["A network gel with a rigid matrix", "A clear solution", "A gas bubble layer", "A crystal lattice that never breaks"], "correct": 0}, {"q": "A thixotropic suspension behaves how during storage versus shaking?", "options": ["Viscous at rest, fluid when shaken", "Fluid at rest, solid when shaken", "Solid at all times", "Fluid at all times"], "correct": 0}, {"q": "Which of the following is NOT a factor that improves suspension stability, per the lecture?", "options": ["Small particle size", "Increased continuous-phase viscosity", "Controlled temperature", "Increasing particle size"], "correct": 3}, {"q": "Reducing particle size increases total surface area, which in turn:", "options": ["Decreases interface between solid and liquid", "Increases interface and system viscosity", "Has no effect on viscosity", "Always decreases stability"], "correct": 1}, {"q": "Increasing the viscosity of the continuous phase mainly helps stability by:", "options": ["Increasing sedimentation rate", "Reducing the rate of sedimentation", "Dissolving the drug completely", "Removing the need for shaking"], "correct": 1}, {"q": "What is added to the external (continuous) phase to increase viscosity?", "options": ["Thickening agents", "Preservatives only", "Colorings", "Flavorings"], "correct": 0}, {"q": "The more viscous a suspension is, the more likely its drug release will be:", "options": ["Faster", "Slower", "Unaffected", "Immediate"], "correct": 1}, {"q": "Slower drug release from a viscous suspension can be desirable for:", "options": ["Emergency IV boluses", "Depot (long-acting) preparations", "Rapid-onset oral syrups", "Ophthalmic rinses"], "correct": 1}, {"q": "Fluctuating storage temperature can cause a suspension to develop:", "options": ["Improved clarity", "Caking and claying", "Better flavor", "Reduced viscosity permanently"], "correct": 1}, {"q": "What happens to a solid's solubility when temperature is raised?", "options": ["It decreases", "It increases", "It stays exactly the same", "It becomes zero"], "correct": 1}, {"q": "What happens to a solid's solubility when temperature is lowered?", "options": ["It increases", "It decreases", "It stays exactly the same", "It becomes infinite"], "correct": 1}, {"q": "Ostwald ripening in a suspension refers to:", "options": ["Small particles disappearing while large particles grow after repeated temperature changes", "All particles dissolving completely and permanently", "Particles shrinking uniformly forever", "A one-time, irreversible color change"], "correct": 0}, {"q": "What flavor and vehicle type is Clarithromycin for Oral Suspension, USP (Sandoz) prepared in?", "options": ["A fruit-punch flavored aqueous vehicle", "An unflavored oil-based vehicle", "A mint-flavored alcoholic vehicle", "A chocolate-flavored elixir"], "correct": 0}, {"q": "What is the labeled reconstituted strength of Clarithromycin for Oral Suspension, USP (Sandoz)?", "options": ["125 mg per 5 mL", "500 mg per mL", "10 mg per mL", "1 g per 5 mL"], "correct": 0}, {"q": "What is the labeled strength and flavor of the Good Sense Children's Ibuprofen Oral Suspension?", "options": ["100 mg per 5 mL, berry flavored, alcohol-free", "250 mg per mL, unflavored", "50 mg per 5 mL, mint flavored", "5 mg per mL, grape flavored, alcohol-containing"], "correct": 0}, {"q": "According to the lecture, what does Barium Sulfate suspension's bulk powder already contain?", "options": ["Only the active drug, no excipients", "The required suspending agents for effective reconstitution", "Only preservatives", "Only flavoring agents"], "correct": 1}, {"q": "Which drug pair is specifically named as reacting badly with alcohol in the lecture?", "options": ["Metronidazole and disulfiram", "Ibuprofen and aspirin", "Nystatin and prednisone", "Amoxicillin and paracetamol"], "correct": 0}];
+
+const quizMedium = [{"q": "A pharmacist has only a capsule dosage form for a patient who cannot swallow. What is the correct order of steps to compound a suspension?", "options": ["Dilute to volume, then crush, then add vehicle", "Crush/empty into mortar, add vehicle slowly to form a paste, then dilute to final volume", "Add full volume of vehicle at once, then crush tablets into it", "Dissolve the drug in alcohol, then crush tablets"], "correct": 1}, {"q": "Why might a pharmacist prefer a commercial Ora-family vehicle over an ad hoc homemade vehicle when compounding?", "options": ["It is always the cheapest option", "It is a validated, pre-formulated vehicle suited for compounding", "It contains high alcohol content for preservation", "It eliminates the need for a mortar and pestle"], "correct": 1}, {"q": "Why is the vehicle added slowly, rather than all at once, when compounding a suspension paste?", "options": ["To save time", "To ensure even wetting and dispersion, avoiding clumps", "Because the vehicle is expensive", "Because regulations require slow addition"], "correct": 1}, {"q": "Prednisone, ketoconazole, and rifampin are cited as extemporaneous suspension examples mainly because:", "options": ["They are unstable in all dosage forms", "They are not commercially available as convenient liquid forms for patients who can't swallow solids", "They are controlled substances", "They must never be given orally"], "correct": 1}, {"q": "Which four excipient categories should generally be excluded from a neonatal suspension, according to the lecture?", "options": ["Water, drug, dye, sugar", "Preservatives, colorings, flavorings, and alcohol", "Only alcohol, nothing else", "Thickening agents only"], "correct": 1}, {"q": "Mechanistically, why is alcohol dangerous in a neonatal formulation?", "options": ["It has no mechanism, just a general precaution", "It can alter liver function, irritate the stomach, and depress the nervous system", "It only affects taste perception", "It causes permanent tooth discoloration"], "correct": 1}, {"q": "Why is Aromatic Elixir, NF specifically unsuitable as a neonatal vehicle?", "options": ["It is too expensive", "It contains 21-23% alcohol, risking hepatic/gastric/neurologic harm", "It has no flavor", "It cannot be diluted"], "correct": 1}, {"q": "Why would a pharmacist avoid an alcohol-containing vehicle for a patient on metronidazole?", "options": ["Alcohol reduces the drug's taste", "Combining alcohol with metronidazole can make the patient violently ill", "Metronidazole is inactivated by alcohol", "There is no interaction of concern"], "correct": 1}, {"q": "Why are preservatives a specific concern in preterm infants, according to the lecture?", "options": ["They have been implicated in adverse effects in preterm infants", "They always cause immediate death", "They have no documented concern", "They only affect taste"], "correct": 0}, {"q": "What is the underlying mechanism by which benzyl alcohol harms neonates?", "options": ["It causes gasping syndrome, a deterioration of multiple organ systems that can be fatal", "It causes only mild, self-limiting rash", "It has a stimulant effect with no risk", "It improves neonatal liver function"], "correct": 0}, {"q": "Why does propylene glycol specifically concern preterm infants rather than the general population?", "options": ["It has been implicated in seizures and stupor in preterm infants specifically", "It is toxic to all age groups equally and specifically causes blindness", "It has no documented effects in any population", "It only affects taste in preterm formulas"], "correct": 0}, {"q": "Ranking alcohol, benzyl alcohol, and propylene glycol by neonatal harm, which is correctly matched?", "options": ["Alcohol -> gasping syndrome; benzyl alcohol -> seizures; propylene glycol -> liver dysfunction", "Alcohol -> liver/gastric/neurologic effects; benzyl alcohol -> gasping syndrome; propylene glycol -> seizures/stupor", "All three cause identical, interchangeable harms", "None of the three has any documented neonatal harm"], "correct": 1}, {"q": "Why does a suspension need a wide-mouth container rather than a narrow-neck one?", "options": ["It looks more professional", "It gives airspace for effective shaking and easier pouring", "It reduces the cost of manufacturing", "It prevents any settling from occurring"], "correct": 1}, {"q": "What could go wrong if a suspension is stored where temperature fluctuates or it is frozen?", "options": ["Nothing, suspensions are temperature-immune", "It risks physical instability such as caking or Ostwald ripening", "It becomes automatically sterile", "It becomes more potent"], "correct": 1}, {"q": "Why does 'shake well before use' function as a dosing-safety instruction rather than mere convenience?", "options": ["It ensures uniform drug distribution so each dose is accurate, since settled solid would otherwise give inconsistent doses", "It only improves the taste of the last dose", "It is only relevant for topical products", "It has no real clinical purpose"], "correct": 0}, {"q": "Why are ampicillin, cefixime, and erythromycin estolate typically supplied as dry powder for reconstitution rather than ready-made liquid?", "options": ["They taste better as powders", "They are unstable in aqueous solution, so reconstitution shortly before use preserves potency", "They are cheaper to ship as powder only", "Liquid forms are illegal for antibiotics"], "correct": 1}, {"q": "A patient has a helminth (worm) infection and needs an oral suspension. Which example applies, and what category is it?", "options": ["Thiabendazole, an anthelmintic suspension", "Nystatin, an antifungal suspension", "Tegretol, an anticonvulsant suspension", "Maalox, an antacid suspension"], "correct": 0}, {"q": "A neonate has oral thrush. Which oral suspension example applies, and what category is it?", "options": ["Nystatin drop, an antifungal suspension", "Thiabendazole, an anthelmintic suspension", "Bactrim, an antibacterial suspension", "Ponstan, an analgesic suspension"], "correct": 0}, {"q": "How would you classify Albenzol Plus and Mycostatin by therapeutic category, respectively?", "options": ["Anthelmintic combination; antifungal", "Antibacterial; analgesic", "Antacid; anticonvulsant", "Antifungal; anthelmintic"], "correct": 0}, {"q": "Why can Barium Sulfate suspension be given by two different routes for the same general diagnostic purpose?", "options": ["Because it visualizes different parts of the GI tract depending on the route (oral for upper, rectal for lower)", "Because the oral route is being phased out", "Because rectal administration is always preferred for accuracy", "Because the drug requires two simultaneous routes for effect"], "correct": 0}, {"q": "What formulation feature makes Barium Sulfate for Suspension, USP convenient to reconstitute?", "options": ["It must be compounded from three separate powders", "It is supplied as a bulk powder already containing required suspending agents", "It requires refrigeration before use", "It cannot be given as an enema"], "correct": 1}, {"q": "Why does an otic suspension combine an antibiotic with a corticosteroid, as in the polymyxin B/neomycin/hydrocortisone example?", "options": ["To treat infection and reduce inflammation simultaneously", "To increase the suspension's viscosity only", "Because corticosteroids are needed to dissolve the antibiotic", "Because the combination has no therapeutic rationale, it's just tradition"], "correct": 0}, {"q": "Explain the clinical reasoning behind the 10 μm particle-size ceiling for ophthalmic suspensions.", "options": ["Below 10 μm, the patient feels no pain on instillation; larger particles cause discomfort", "Above 10 μm, drug absorption improves significantly", "10 μm is the size needed for the drug to dissolve completely", "Particle size has no bearing on ocular comfort"], "correct": 0}, {"q": "How does particle size influence both comfort and drug performance in a topical suspension?", "options": ["Smaller particles avoid grittiness, increase covering power, and affect dissolution/penetration rate", "Larger particles always improve penetration", "Particle size only affects color, not performance", "Topical suspensions are unaffected by particle size"], "correct": 0}, {"q": "Why is there no single fixed micron ceiling given for injectable suspension particle size, unlike ophthalmic suspensions?", "options": ["The requirement is functional: particles must simply pass freely through the needle", "Injectable suspensions have no particle-size requirement at all", "The micron limit for injectables is always larger than for oral suspensions", "Regulatory bodies have not addressed injectable particle size"], "correct": 0}, {"q": "Why are needle-shaped crystals often specifically chosen for injectable suspension formulations?", "options": ["They dissolve instantly on contact with tissue", "Their shape favors formation of a desirable thixotropic system", "They prevent all sedimentation permanently", "They reduce the total cost of the syringe"], "correct": 1}, {"q": "Step by step, what happens inside a thixotropic suspension between storage and use?", "options": ["At rest a rigid gel network forms; shaking relaxes it into a fluid sol for use", "At rest it is fluid; shaking turns it into a permanent solid", "It remains unchanged regardless of shaking", "It evaporates upon shaking"], "correct": 0}, {"q": "Why is thixotropy considered desirable for an injectable suspension specifically?", "options": ["It keeps the suspension viscous/stable in storage yet fluid on shaking for easy injection", "It permanently thickens the suspension so it cannot be injected", "It has no practical benefit, it is only of academic interest", "It prevents the drug from ever dissolving"], "correct": 0}, {"q": "If a formulator wants both good syringeability and good storage stability for an injectable suspension, what should be favored?", "options": ["Spherical, large particles", "Needle-shaped crystals that favor thixotropic behavior", "No particles at all, a true solution", "Maximum possible viscosity at all times"], "correct": 1}, {"q": "Explain the chain of cause and effect from reducing particle size to increasing suspension viscosity.", "options": ["Smaller particles increase total surface area, increasing the solid-liquid interface, which raises viscosity", "Smaller particles always decrease viscosity", "Particle size has no relationship to viscosity", "Smaller particles cause the vehicle to evaporate faster"], "correct": 0}, {"q": "Why does increasing continuous-phase viscosity improve physical stability of a suspension?", "options": ["It reduces the rate of sedimentation of particles", "It increases the rate of sedimentation", "It dissolves all particles completely", "It removes the need for preservatives"], "correct": 0}, {"q": "What trade-off must a formulator weigh when adding thickening agents to boost suspension viscosity?", "options": ["Improved settling stability but slower drug release", "Faster drug release but worse stability always", "No trade-off exists", "Reduced shelf life with no benefit"], "correct": 0}, {"q": "In what scenario is slower drug release from a highly viscous suspension actually advantageous?", "options": ["In depot (long-acting/sustained-release) preparations", "In emergency IV bolus dosing", "In rapid-onset oral rescue medication", "Never; slow release is always undesirable"], "correct": 0}, {"q": "Why is repeated temperature fluctuation particularly damaging to suspension stability, more than a single deviation?", "options": ["Repeated cycles repeatedly shift equilibrium solubility, progressively causing caking and Ostwald ripening", "A single deviation is always worse than repeated cycles", "Temperature has no cumulative effect on suspensions", "Repeated fluctuation only affects the container, not the suspension"], "correct": 0}, {"q": "Why does a temperature rise contribute to later instability upon cooling?", "options": ["Solubility rises with heat (dissolving small particles); on cooling that material redeposits onto larger particles", "Heat has no effect on solubility", "Cooling always increases the total number of particles", "Heat permanently destroys all particles"], "correct": 0}, {"q": "Walking through the Ostwald ripening cycle: what happens during the heating phase?", "options": ["Solubility rises and small particles seem to dissolve/disappear", "Solubility falls and particles instantly freeze", "Nothing changes during heating", "All particles grow uniformly during heating"], "correct": 0}, {"q": "Walking through the Ostwald ripening cycle: what happens during the subsequent cooling phase?", "options": ["Solubility falls and dissolved material redeposits onto larger particles, making them grow", "Solubility rises further, dissolving all remaining particles", "The suspension becomes a true solution permanently", "Nothing changes during cooling"], "correct": 0}, {"q": "Why doesn't cooling simply reform the original small particles during Ostwald ripening?", "options": ["Redissolved material recrystallizes preferentially onto existing larger particle surfaces", "Cooling destroys all particles entirely", "Small particles reform exactly as before every time", "Cooling has no effect on particle size"], "correct": 0}, {"q": "What storage practice most directly prevents Ostwald ripening, based on its mechanism?", "options": ["Storing at a stable, controlled temperature, avoiding cycling", "Storing in direct sunlight", "Freezing the suspension repeatedly", "Storing at maximum possible heat"], "correct": 0}, {"q": "A patient is on metronidazole and lives with a neonate. What single excipient concern applies to both situations regarding a shared household suspension product?", "options": ["Alcohol content of the vehicle", "Sugar content of the vehicle", "Container color", "Bottle shape"], "correct": 0}, {"q": "Why is 'adequate airspace' above the liquid necessary in suspension packaging, beyond convenience?", "options": ["Without airspace, the contents cannot be agitated effectively enough to redisperse the settled solid", "Airspace is only for aesthetic purposes", "Airspace prevents the drug from ever settling", "Airspace is required only for injectable suspensions"], "correct": 0}, {"q": "An antacid combination of alumina and simethicone is branded as which example in the lecture?", "options": ["Maalox", "Bactrim", "Tegretol", "Ponstan"], "correct": 0}, {"q": "What does the chemical name of mesalamine (5-aminosalicylic acid) suggest about its therapeutic use?", "options": ["It is an aminosalicylate used for local anti-inflammatory action in the bowel", "It is a general anesthetic", "It is an antihistamine", "It is a vitamin supplement"], "correct": 0}, {"q": "Comparing particle-size rationale: ophthalmic suspensions need particles ≤10 μm mainly because of:", "options": ["Ocular comfort/pain avoidance, a strict sensory threshold", "Needle bore diameter", "Skin grittiness concerns", "Drug solubility requirements only"], "correct": 0}, {"q": "What is the technical term for the reversible gel-to-sol change seen in some suspensions, and what typically triggers it?", "options": ["Thixotropy, triggered by mechanical stress such as shaking", "Flocculation, triggered by heating", "Deflocculation, triggered by freezing", "Ostwald ripening, triggered by pH change"], "correct": 0}, {"q": "Why is dilution to final volume performed only after the paste forms, rather than at the very start of compounding?", "options": ["Forming a concentrated paste first ensures thorough, even wetting and dispersion before dilution, preventing lumps", "Diluting first saves time and is the preferred method", "The order makes no difference to the final product", "Diluting first is required by regulation"], "correct": 0}, {"q": "Why do both neonates and elderly patients appear together in the caution about alcohol-containing vehicles?", "options": ["Both groups may be especially sensitive to CNS-depressant effects or drug interactions involving alcohol", "Neither group is actually at risk from alcohol", "Only elderly patients matter; neonates are unaffected by alcohol", "Alcohol sensitivity is unrelated to age in any way"], "correct": 0}, {"q": "Summarizing particle size and viscosity together: what is the combined effect on stability and drug release?", "options": ["Both smaller particle size and higher viscosity slow sedimentation (better stability) but higher viscosity also slows drug release", "Smaller particle size always speeds drug release with no stability benefit", "Viscosity has no effect on either stability or release", "Larger particle size and lower viscosity together maximize stability"], "correct": 0}, {"q": "Why must a pharmacist screen for CNS-depressant or alcohol-interacting medications before choosing a suspension vehicle for an elderly patient?", "options": ["Because the same alcohol-containing vehicles that harm neonates can dangerously interact with drugs like metronidazole or disulfiram, or worsen CNS depression in the elderly", "Elderly patients are immune to any vehicle-related risk", "Only neonates need vehicle screening; elderly patients require none", "CNS-depressant interactions apply only to injectable suspensions"], "correct": 0}, {"q": "Why does the lecture pair packaging guidance (wide mouth, tight container) with the instruction to shake before use, rather than treating them separately?", "options": ["They work together: the container design enables effective shaking, and shaking is what actually restores uniform dosing after settling", "Packaging and shaking address entirely unrelated stability issues", "Shaking is unnecessary if the container is wide-mouthed", "Tight containers eliminate the need for shaking entirely"], "correct": 0}];
+
+const quizHard = [{"q": "A neonate needs a compounded suspension. Choices: Aromatic Elixir NF, an alcohol-free Ora-family vehicle, or a benzyl-alcohol-preserved syrup. Which is correct and why must the other two be rejected?", "options": ["The Ora-family vehicle; Aromatic Elixir NF risks alcohol toxicity and the benzyl-alcohol syrup risks gasping syndrome", "Aromatic Elixir NF; it is the most traditional choice", "The benzyl-alcohol syrup; preservatives are always safest for neonates", "Any of the three; all are equally acceptable for neonates"], "correct": 0}, {"q": "A preterm infant's suspension contains propylene glycol. What toxicities should be monitored, and why is this population uniquely vulnerable?", "options": ["Seizures and stupor, due to immature hepatic/renal clearance in preterm infants", "Improved alertness, because preterm infants metabolize propylene glycol faster", "Hearing loss, due to increased ear canal sensitivity", "No monitoring is needed; propylene glycol is inert in infants"], "correct": 0}, {"q": "Why should a pharmacist be equally cautious selecting a vehicle for a metronidazole patient as for a neonate, despite the very different populations?", "options": ["Both risks trace back to alcohol content in the vehicle -- direct toxicity in the neonate, a severe reaction in the metronidazole patient", "Metronidazole patients and neonates share no common vehicle risk", "Only the neonate is at risk; metronidazole patients are unaffected by vehicle alcohol", "The concern is unrelated to alcohol in both cases"], "correct": 0}, {"q": "Integrating particle size and viscosity: why can reducing particle size both improve stability and complicate drug release?", "options": ["Smaller particles raise the solid-liquid interface and viscosity, slowing sedimentation (better stability) but also potentially slowing drug release", "Smaller particles always speed drug release with no stability trade-off", "Particle size affects only color, not stability or release", "Reducing particle size has no effect on viscosity"], "correct": 0}, {"q": "A suspension endures days of fluctuating temperature. Which TWO distinct physical changes are most plausible, and why?", "options": ["Caking/claying from sediment destabilization, and Ostwald ripening from repeated solubility cycling", "Permanent dissolution of all solids, and spontaneous sterilization", "Color change only, with no physical instability", "Increased drug potency and improved clarity"], "correct": 0}, {"q": "How do particle shape, thixotropy, and syringeability connect in an injectable suspension using needle-shaped crystals?", "options": ["Needle crystals form a rigid gel at rest (stable storage) that relaxes to a fluid sol on shaking (passes through the needle easily)", "Needle crystals dissolve completely before injection, so shape is irrelevant", "Needle crystals prevent the suspension from ever being injected", "Needle shape only affects the suspension's color"], "correct": 0}, {"q": "Justify distinct particle-size rationales for ophthalmic, topical, and injectable suspensions in one coherent answer.", "options": ["Ophthalmic: <=10 μm for ocular comfort; topical: fine enough to avoid grit and aid penetration; injectable: small/shaped enough to pass the needle", "All three routes share one identical fixed micron limit", "Only injectable suspensions have any particle-size requirement", "Topical suspensions require the strictest micron limit of all three"], "correct": 0}, {"q": "Compare benzyl alcohol and propylene glycol neonatal toxicity, and explain why both are tolerated in many adult products.", "options": ["Benzyl alcohol causes gasping syndrome; propylene glycol causes seizures/stupor; both reflect immature neonatal clearance not present in mature adults", "Both cause identical toxicity in neonates and adults alike", "Neither has any documented toxicity in any population", "Adults are actually more vulnerable to both agents than neonates"], "correct": 0}, {"q": "Why is Ostwald ripening described as occurring 'in both directions' of temperature change?", "options": ["Solubility rises on heating (dissolving small particles) and falls on cooling (depositing onto larger particles), so both directions contribute cumulatively", "Ripening only occurs during heating, never cooling", "Ripening only occurs during cooling, never heating", "Temperature direction is irrelevant to Ostwald ripening"], "correct": 0}, {"q": "Explain the full causal chain linking a highly viscous depot suspension design to particle-size and stability principles.", "options": ["Small particle size and/or thickening agents raise viscosity, slowing sedimentation (stability) and, as a consequence, slowing drug release (desired depot effect)", "High viscosity has no relationship to particle size or drug release", "Depot suspensions are always low-viscosity by design", "Small particle size always speeds drug release regardless of viscosity"], "correct": 0}, {"q": "Contrast general suspension storage/packaging requirements with neonatal/preterm-specific cautions.", "options": ["General: wide mouth, tight container, avoid freeze/heat/light, shake before use. Neonatal: additionally avoid alcohol, preservatives, colorings, flavorings, benzyl alcohol, propylene glycol", "There is no difference between general and neonatal-specific requirements", "Neonatal suspensions require MORE preservatives than adult suspensions", "General suspensions require freezing for stability"], "correct": 0}, {"q": "How can a single barium sulfate bulk powder serve both an upper-GI series and a lower-GI enema?", "options": ["It already contains the required suspending agents, so it can be reconstituted for oral use or as a rectal enema depending on the diagnostic need", "It must be chemically altered for each route", "It can only be used rectally, never orally", "It requires two entirely separate formulations, contrary to the lecture"], "correct": 0}, {"q": "Why is mesalamine suspension specifically useful for distal rather than proximal colonic disease?", "options": ["It acts locally, typically via rectal administration, concentrating drug in distal ulcerative colitis", "It is given intravenously for systemic distribution", "It specifically targets only the stomach", "Its site of action is unrelated to route of administration"], "correct": 0}, {"q": "Discuss the stability-versus-practicality trade-off between a low-viscosity vehicle and a higher-viscosity Ora-family vehicle in compounding.", "options": ["Higher viscosity improves settling stability and uniformity but may pour less easily and slow release; low viscosity pours easily but sediments faster", "There is no trade-off; higher viscosity is strictly better in every respect", "Low-viscosity vehicles always provide superior stability", "Vehicle viscosity has no bearing on pouring or sedimentation"], "correct": 0}, {"q": "How do the neonatal-alcohol caution and the metronidazole/disulfiram-alcohol caution both trace back to the same vehicle warning?", "options": ["Aromatic Elixir NF's 21-23% alcohol content is unsuitable for both groups, for different (toxicity vs. interaction) reasons", "The two cautions are entirely unrelated and involve different excipients", "Metronidazole patients require MORE alcohol in their vehicle", "Neonates are unaffected by Aromatic Elixir NF"], "correct": 0}, {"q": "Are caking/claying and Ostwald ripening the same phenomenon? Choose the best distinction.", "options": ["No -- caking/claying is sediment-structure failure, while Ostwald ripening is a solubility-driven particle growth process; both are temperature-related but mechanistically distinct", "Yes, they are identical phenomena with different names", "Caking/claying is caused only by light exposure, unrelated to temperature", "Ostwald ripening is unrelated to temperature at all"], "correct": 0}, {"q": "Why might ampicillin, cefixime, and erythromycin estolate be supplied as dry powders rather than ready liquids?", "options": ["They are unstable in aqueous solution, so reconstitution shortly before use avoids degradation", "They are far more expensive as liquids", "Dry powders are required by law for all antibiotics", "Liquid antibiotic forms have never been developed"], "correct": 0}, {"q": "Predict the combined effect of reducing particle size in a topical suspension on skin feel, covering power, and penetration.", "options": ["Less grittiness, increased covering power, and typically faster penetration due to increased dissolution rate", "Increased grittiness and reduced covering power", "No change in any of the three properties", "Only covering power changes; the others are unaffected"], "correct": 0}, {"q": "Why is 'shake well before use' a dosing-safety requirement rather than a mere convenience instruction?", "options": ["Without shaking, early doses would be under-dosed (mostly vehicle) and later doses over-dosed (concentrated sediment)", "Shaking only affects flavor, not dose accuracy", "All suspensions dose accurately without shaking", "Shaking is only relevant for injectable suspensions"], "correct": 0}, {"q": "A technician freezes a suspension overnight by mistake. What is the most likely consequence, based on storage guidance?", "options": ["Disrupted suspension structure, promoting aggregation/particle growth on thawing and compromising stability", "No consequence; freezing has no effect on suspensions", "Improved stability and finer particle size", "Immediate loss of all active drug content"], "correct": 0}, {"q": "Why are 'small particle size' and 'increased continuous-phase viscosity' listed as two separate stability factors, despite being related?", "options": ["Reduced particle size raises viscosity indirectly via increased interface, while adding thickening agents is a direct, independent strategy to raise viscosity", "They are identical concepts with no distinction", "Particle size has no effect on viscosity at all", "Only viscosity affects stability; particle size is irrelevant"], "correct": 0}, {"q": "Why does a neonatal formulation avoid flavorings/colorings while a pediatric product like flavored children's ibuprofen suspension includes them?", "options": ["The neonatal caution reflects unique vulnerability in neonates; older children lack that specific risk, so flavoring aids compliance safely", "Flavorings are equally dangerous in all pediatric age groups without exception", "Neonates actually require flavoring for safety", "There is no distinction; both age groups should avoid flavoring"], "correct": 0}, {"q": "What would happen clinically if an injectable suspension were not thixotropic and remained a rigid gel even after shaking?", "options": ["It could not be drawn into a syringe or injected through the needle, defeating its purpose as a liquid dosage form", "It would become instantly more potent", "It would automatically liquefy without shaking", "There would be no clinical consequence"], "correct": 0}, {"q": "Synthesize an ideal compounding/packaging plan for a preterm neonate's antifungal suspension.", "options": ["Alcohol-, benzyl-alcohol-, propylene-glycol-free vehicle without unnecessary preservatives/colorings/flavorings, in a wide-mouth tight container away from freeze/heat/light, shaken before dosing", "Any commercially available adult vehicle, regardless of alcohol content", "A vehicle high in benzyl alcohol for preservation, since preterm infants need extra preservative protection", "No special precautions are needed beyond standard adult compounding"], "correct": 0}, {"q": "Why does the lecture emphasize needle-shaped crystals rather than just 'small particles' for injectable suspension design?", "options": ["Particle shape, not just size, determines whether particles interlock into a thixotropic gel network at rest", "Particle shape is irrelevant; only size matters for injectable suspensions", "Spherical particles always form better thixotropic gels than needle-shaped ones", "Crystal shape only affects color, not rheology"], "correct": 0}, {"q": "A suspension shows both caking and increased average particle size after weeks of unstable shelf temperature. What single storage failure explains both?", "options": ["Uncontrolled temperature fluctuation, driving both caking/claying and Ostwald ripening", "Excess light exposure alone, unrelated to temperature", "Improper container color, unrelated to storage conditions", "Insufficient shaking by the patient alone explains both findings"], "correct": 0}, {"q": "Why do particle-size requirements differ so much between ophthalmic (<=10 μm) and injectable suspensions (no fixed value, needle-passable)?", "options": ["Ophthalmic limits are driven by ocular comfort; injectable limits are driven by needle bore and thixotropic crystal shape rather than an absolute cutoff", "Both routes use the exact same fixed micron limit", "Injectable suspensions actually have a stricter numeric limit than ophthalmic suspensions", "Particle size requirements are arbitrary and unrelated to route"], "correct": 0}, {"q": "Outline the full extemporaneous workflow for a new poorly water-soluble tablet-only drug for a neonate who cannot swallow.", "options": ["Crush tablets, slowly triturate in an alcohol-free vehicle to form a paste, dilute to volume, package wide-mouth/tight/protected, label to shake before use", "Dissolve the tablets fully in Aromatic Elixir NF for convenience", "Administer the crushed tablets directly without any vehicle", "Skip compounding; instruct the caregiver to crush tablets into food"], "correct": 0}, {"q": "Why does the lecture link viscosity to drug release, and what does that imply for a fast-acting analgesic suspension versus a depot corticosteroid suspension?", "options": ["Higher viscosity slows release, so analgesics favor lower viscosity for prompt onset while depot corticosteroids favor higher viscosity for sustained release", "Viscosity has no relationship to drug release rate for either product type", "Depot corticosteroid suspensions should always be formulated at the lowest possible viscosity", "Fast-acting analgesics require the highest possible viscosity for onset"], "correct": 0}, {"q": "Why does even a slow-sedimenting, highly viscous suspension still need the 'shake before use' instruction?", "options": ["It will still eventually settle over time, so shaking remains necessary to guarantee dose uniformity at administration", "High viscosity suspensions never settle and thus never require shaking", "Shaking is only required for low-viscosity suspensions", "The instruction is a formality with no real basis for viscous suspensions"], "correct": 0}, {"q": "Contrast how barium sulfate's suspension route is chosen versus how mesalamine's route is implied by disease.", "options": ["Barium sulfate's route depends on which GI segment needs imaging; mesalamine's route is implied by distal disease, favoring local (typically rectal) delivery", "Both drugs are administered by the exact same route for identical reasons", "Barium sulfate is never given rectally under any circumstance", "Mesalamine's route has no relationship to the disease location"], "correct": 0}, {"q": "List the complete neonatal excipient 'red-flag' checklist implied by the lecture, matched to harms.", "options": ["Alcohol (liver/gastric/neurologic), benzyl alcohol (gasping syndrome), propylene glycol (seizures/stupor), preservatives (adverse effects in preterm infants), unnecessary colorings/flavorings", "Only alcohol is a concern; all other excipients are always safe in neonates", "Preservatives are the sole concern; alcohol is always safe in neonates", "None of these excipients pose any documented risk to neonates"], "correct": 0}, {"q": "How could maximizing physical stability inadvertently create a suspension with poor onset of action?", "options": ["Minimizing particle size and maximizing viscosity slows sedimentation but also slows drug release, delaying onset unless a depot effect is desired", "Maximizing stability always speeds drug release with no downside", "Stability and onset of action are entirely unrelated concepts", "Larger particle size and lower viscosity always maximize both stability and onset speed"], "correct": 0}, {"q": "Compare the purpose of a wide-mouth container with the purpose of thixotropy as solutions to a shared suspension-usability problem.", "options": ["Both restore uniform dosing after settling -- one via physical shaking room, the other via rheological self-liquefaction on shaking", "They solve entirely unrelated problems with no common purpose", "Thixotropy replaces the need for any container at all", "Wide-mouth containers are only relevant to injectable suspensions"], "correct": 0}, {"q": "A ketoconazole suspension recipe for a neonate specifies Aromatic Elixir NF as vehicle. What is violated, and what is the correction?", "options": ["It violates the neonatal alcohol caution; correct by substituting an alcohol-free vehicle and omitting unnecessary preservatives/colorings/flavorings", "Nothing is violated; Aromatic Elixir NF is ideal for neonates", "The only issue is flavor; alcohol content is not a concern", "The recipe should add MORE alcohol for better preservation"], "correct": 0}, {"q": "Why is 'protected from light' included in general storage guidance alongside freezing and heat, despite not being tied to a specific mechanism like Ostwald ripening in the lecture?", "options": ["It is a general safeguard against photodegradation, reflecting the broader principle of shielding suspensions from all environmental stressors", "Light exposure is the primary cause of Ostwald ripening specifically", "Light has no relevance to suspension storage at all", "Light protection is only required for injectable suspensions"], "correct": 0}, {"q": "A formulator raises viscosity to slow sedimentation in an immediate-release antibacterial suspension for acute infection. What downside should be weighed?", "options": ["The higher viscosity that improves stability could also delay onset of the antibacterial effect by slowing drug release", "There is no downside; higher viscosity only ever helps immediate-release products", "Higher viscosity always speeds onset of action", "Viscosity changes have no effect on antibacterial suspensions specifically"], "correct": 0}, {"q": "Reconcile the neonatal exclusion of colorings/flavorings with the pediatric inclusion of berry flavoring in a children's ibuprofen suspension.", "options": ["The neonatal caution reflects unique neonatal vulnerability; flavoring in an older-children's product safely aids compliance without that same risk", "Flavoring is equally dangerous for both neonates and older children", "Neonates actually benefit from flavoring more than older children do", "There is no meaningful distinction between the two populations"], "correct": 0}, {"q": "As a capstone: how do particle size, viscosity, temperature control, and packaging together determine overall suspension stability?", "options": ["Small particle size and added viscosity slow sedimentation; stable temperature prevents caking/Ostwald ripening; proper packaging plus shaking ensures uniform dosing despite settling", "Only temperature matters; particle size, viscosity, and packaging are irrelevant to stability", "Packaging alone determines suspension stability, independent of formulation factors", "Larger particle size and lower viscosity together maximize suspension stability"], "correct": 0}, {"q": "Why might a formulator favor needle-shaped crystals for an injectable suspension over spherical particles of the exact same size?", "options": ["Needle-shaped crystals interlock more readily into a gel network at rest, reliably promoting thixotropic behavior that same-sized spherical particles would not", "Spherical particles always produce superior thixotropy regardless of size", "Crystal shape has no bearing on thixotropic behavior, only size matters", "Needle-shaped crystals dissolve completely and thus cannot form any suspension"], "correct": 0}];
+
+const quizLevels = {1:quizEasy, 2:quizMedium, 3:quizHard};
+let currentQuizLevel = 1;
+let quizData = quizLevels[1];
+document.getElementById('quizLevelCount').textContent = `${quizData.length} questions at this level`;
+
+let quizStarted = false;
+let workingQuiz = [];
+let qIndex = 0;
+let score = 0;
+let missed = [];
+let answered = false;
+
+function buildWorkingQuiz(){
+  workingQuiz = quizData.map(item=>{
+    const opts = item.options.map((text,i)=>({text, correct: i===item.correct}));
+    shuffleArr(opts);
+    return {q:item.q, opts};
+  });
+}
+
+function setQuizLevel(level){
+  currentQuizLevel = level;
+  [1,2,3].forEach(l=>document.getElementById('quizLvl-'+l).classList.remove('active'));
+  document.getElementById('quizLvl-'+level).classList.add('active');
+  quizData = quizLevels[level];
+  document.getElementById('quizLevelCount').textContent = `${quizData.length} questions at this level`;
+  initQuiz();
+}
+
+function initQuiz(){
+  buildWorkingQuiz();
+  qIndex = 0; score = 0; missed = []; answered = false;
+  renderQuestion();
+}
+
+function renderQuestion(){
+  answered = false;
+  const total = workingQuiz.length;
+  document.getElementById('progressFill').style.width = ((qIndex)/total*100)+'%';
+  const item = workingQuiz[qIndex];
+  const optsHtml = item.opts.map((o,i)=>`<button class="opt-btn" onclick="selectOption(${i})">${o.text}</button>`).join('');
+  document.getElementById('quizArea').innerHTML = `
+    <div class="quiz-card">
+      <div class="quiz-meta"><span>Question ${qIndex+1} of ${total}</span><span class="score-tag">Score: ${score}</span></div>
+      <div class="quiz-q">${item.q}</div>
+      <div id="optWrap">${optsHtml}</div>
+      <div class="quiz-actions">
+        <span></span>
+        <button class="btn solid" id="nextBtn" style="display:none;" onclick="nextQuestion()">${qIndex+1===total ? 'See results' : 'Next question'}</button>
+      </div>
+    </div>
+  `;
+}
+
+function selectOption(i){
+  if(answered) return;
+  answered = true;
+  const item = workingQuiz[qIndex];
+  const buttons = document.querySelectorAll('#optWrap .opt-btn');
+  buttons.forEach((b,idx)=>{
+    b.classList.add('disabled');
+    if(item.opts[idx].correct) b.classList.add('correct');
+    else if(idx===i) b.classList.add('incorrect');
+  });
+  if(item.opts[i].correct){
+    score++;
+  } else {
+    const correctText = item.opts.find(o=>o.correct).text;
+    missed.push({q:item.q, a:correctText});
+  }
+  document.getElementById('nextBtn').style.display = 'inline-block';
+  document.querySelector('.score-tag').textContent = 'Score: '+score;
+}
+
+function nextQuestion(){
+  qIndex++;
+  if(qIndex >= workingQuiz.length){ showResults(); }
+  else { renderQuestion(); }
+}
+
+function showResults(){
+  document.getElementById('progressFill').style.width = '100%';
+  const total = workingQuiz.length;
+  let missedHtml = '';
+  if(missed.length){
+    missedHtml = `<div class="missed-list"><h3 style="font-size:1rem;margin-bottom:8px;">Review these</h3>` +
+      missed.map(m=>`<div class="missed-item"><div class="q">${m.q}</div><div class="a">Correct answer: ${m.a}</div></div>`).join('') +
+      `</div>`;
+  }
+  document.getElementById('quizArea').innerHTML = `
+    <div class="quiz-card results-box">
+      <div class="big-score">${score} / ${total}</div>
+      <p style="color:var(--ink-soft);">Questions answered correctly.</p>
+      <button class="btn solid" onclick="initQuiz()">Retake quiz</button>
+      ${missedHtml}
+    </div>
+  `;
+}
+</script>
+</body>
+</html>
